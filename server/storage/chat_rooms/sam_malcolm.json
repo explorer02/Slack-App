@@ -1,0 +1,30 @@
+{
+  "id": "sam_malcolm",
+  "members": ["sam", "malcolm"],
+  "messages": [
+    {
+      "id": "sam_malcolm_1axsd3",
+      "timestamp": 1627886611434,
+      "text": "Heya Sam!!",
+      "sender_id": "malcolm"
+    },
+    {
+      "id": "sam_malcolm_38nd83b",
+      "timestamp": 1627886611534,
+      "text": "Hola! Sup?",
+      "sender_id": "sam"
+    },
+    {
+      "id": "sam_malcolm_b3b3b3",
+      "timestamp": 1627886611634,
+      "text": "Sky's up. Bye!",
+      "sender_id": "malcolm"
+    },
+    {
+      "id": "sam_malcolm_38hd8dn",
+      "timestamp": 1627886611734,
+      "text": "Bye!",
+      "sender_id": "sam"
+    }
+  ]
+}

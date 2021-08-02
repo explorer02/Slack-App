@@ -1,0 +1,29 @@
+[
+  {
+    "id": "john",
+    "password": "1234",
+    "name": "John Reese",
+    "email": "john@abc.com",
+    "phone": "+1 11223344",
+    "lastOnline": 0,
+    "chat_rooms": ["john_malcolm"]
+  },
+  {
+    "id": "sam",
+    "password": "1234",
+    "name": "Sam Groves",
+    "email": "sam@abc.com",
+    "phone": "+1 99887766",
+    "lastOnline": 1627886663434,
+    "chat_rooms": ["sam_malcolm"]
+  },
+  {
+    "id": "malcolm",
+    "password": "12345678",
+    "name": "malcolm Wilkerson",
+    "email": "malcolm@abc.com",
+    "phone": "+1 00991100",
+    "lastOnline": 0,
+    "chat_rooms": ["john_malcolm", "sam_malcolm"]
+  }
+]

@@ -6,7 +6,7 @@
     "email": "john@abc.com",
     "phone": "+1 11223344",
     "lastOnline": 0,
-    "chat_rooms": ["john_malcolm"]
+    "chat_rooms": ["john_malcolm", "john_sam", "channel1"]
   },
   {
     "id": "sam",
@@ -15,15 +15,23 @@
     "email": "sam@abc.com",
     "phone": "+1 99887766",
     "lastOnline": 1627886663434,
-    "chat_rooms": ["sam_malcolm"]
+    "chat_rooms": ["sam_malcolm", "john_sam", "channel1"]
   },
   {
     "id": "malcolm",
     "password": "12345678",
-    "name": "malcolm Wilkerson",
+    "name": "Malcolm Wilkerson",
     "email": "malcolm@abc.com",
     "phone": "+1 00991100",
     "lastOnline": 0,
     "chat_rooms": ["john_malcolm", "sam_malcolm"]
+  },
+  {
+    "id": "jack",
+    "password": "1234",
+    "name": "Jack",
+    "email": "jack@abc.com",
+    "lastOnline": 0,
+    "chat_rooms": ["channel1"]
   }
 ]

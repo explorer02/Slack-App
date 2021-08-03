@@ -1,0 +1,6 @@
+{
+  "id": "channel1",
+  "type": "channel",
+  "members": ["john", "sam", "jack"],
+  "messages": []
+}

@@ -7,7 +7,7 @@ exports.readJSONFIle = async (path) => {
   } catch (error) {
     console.error("[readJSONFile]", error);
   }
-  return {};
+  return false;
 };
 
 exports.writeJSONFIle = async (path, data) => {

@@ -1,6 +1,7 @@
 {
   "id": "sam_malcolm",
   "members": ["sam", "malcolm"],
+  "type": "duel",
   "messages": [
     {
       "id": "sam_malcolm_1axsd3",

@@ -14,6 +14,7 @@ router.get("/:id", async (req, res) => {
   const user = await userController.getUser(id);
   if (user) {
     delete user.password;
+    delete user.chat_rooms;
     res.json(user);
   } else res.status(404).send({ message: "User not found" });
 });

@@ -11,8 +11,13 @@
   margin: 0;
   padding: 0;
 }
+html {
+  height: 100%;
+  width: 100%;
+}
 body {
   min-height: 100vh;
+  height: 100%;
   background-color: var(--color-background);
 }
 img {
@@ -25,10 +30,4 @@ button,
 textarea,
 select {
   font: inherit;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

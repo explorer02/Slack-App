@@ -5,6 +5,7 @@ import { Login } from "./pages/Login/Login";
 import { useState } from "react";
 import { useCallback } from "react";
 import { User } from "./types/User";
+import { ChatRoom } from "./pages/ChatRoom/ChatRoom";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -20,7 +21,11 @@ function App() {
   return (
     <div className="App">
       <Header username={user ? user.name : "Profile"} />
-      {!isLoggedIn && <Login onLoginComplete={handleLoginComplete} />}
+      {!isLoggedIn ? (
+        <Login onLoginComplete={handleLoginComplete} />
+      ) : (
+        <ChatRoom />
+      )}
     </div>
   );
 }

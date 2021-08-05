@@ -3,7 +3,9 @@ import "./header.css";
 import Searchbar from "./Searchbar/Searchbar";
 import { FaUserCircle } from "react-icons/fa";
 
-export const Header = ({ user }: { user: string }) => {
+type HeaderProps = { username: string };
+
+export const Header = (props: HeaderProps) => {
   return (
     <div className="header">
       <div className="header-home">
@@ -13,7 +15,7 @@ export const Header = ({ user }: { user: string }) => {
       <Searchbar />
       <div className="header-profile">
         <FaUserCircle />
-        <p>{user}</p>
+        <p>{props.username}</p>
       </div>
     </div>
   );

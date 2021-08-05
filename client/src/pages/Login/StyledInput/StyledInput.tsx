@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { ChangeEvent } from "react";
 
 import "./styled-input.css";
 
@@ -6,19 +6,21 @@ type StyledInputProps = {
   Icon?: JSX.Element;
   type: string;
   placeholder?: string;
+  value: string;
+  onChange: (ev: ChangeEvent<HTMLInputElement>) => void;
+  minLength?: number;
 };
 
 export const StyledInput = (props: StyledInputProps) => {
-  const [state, setState] = useState("");
-  const handleChange = useCallback((ev) => setState(ev.target.value), []);
   return (
     <div className="styled-input">
       {props.Icon}
       <input
         type={props.type}
         placeholder={props.placeholder}
-        value={state}
-        onChange={handleChange}
+        value={props.value}
+        onChange={props.onChange}
+        minLength={props.minLength}
         required
       ></input>
     </div>

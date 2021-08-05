@@ -3,23 +3,24 @@ import "./global.css";
 import { Header } from "./components/Header/Header";
 import { Login } from "./pages/Login/Login";
 import { useState } from "react";
+import { useCallback } from "react";
+import { User } from "./types/User";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     () => Boolean(localStorage.getItem("loginToken")) || false
   );
-  const [user, setUser] = useState({});
-  const handleLogin = (user: object) => {
+  const [user, setUser] = useState<User>(undefined);
+  const handleLoginComplete = useCallback((user: User) => {
     setUser(user);
     setIsLoggedIn(true);
     localStorage.setItem("loginToken", "true");
-  };
-  console.log(isLoggedIn);
+  }, []);
 
   return (
     <div className="App">
-      <Header user={isLoggedIn ? "Ajay" : "Profile"} />
-      {!isLoggedIn && <Login onLogin={handleLogin} />}
+      <Header username={user ? user.name : "Profile"} />
+      {!isLoggedIn && <Login onLoginComplete={handleLoginComplete} />}
     </div>
   );
 }

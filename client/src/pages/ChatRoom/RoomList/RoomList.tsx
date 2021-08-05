@@ -5,21 +5,25 @@ import { Room } from "./RoomType";
 
 type RoomListProps = {
   onClickListItem: (id: string) => void;
-  dms: Room[];
-  channels: Room[];
+  rooms: Room[];
+  selectedRoomId: string;
 };
 export const RoomList = (props: RoomListProps) => {
+  const dms = props.rooms.filter((room) => room.type === "duel");
+  const channels = props.rooms.filter((room) => room.type === "channel");
   return (
     <div className="room-list">
       <RoomSubList
-        roomEntries={props.channels}
+        roomEntries={channels}
         title="Channels"
         onClickListItem={props.onClickListItem}
+        selectedRoomId={props.selectedRoomId}
       />
       <RoomSubList
-        roomEntries={props.dms}
+        roomEntries={dms}
         title="Direct Messages"
         onClickListItem={props.onClickListItem}
+        selectedRoomId={props.selectedRoomId}
       />
     </div>
   );

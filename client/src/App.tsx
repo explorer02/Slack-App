@@ -4,15 +4,15 @@ import { Header } from "./components/Header/Header";
 import { Login } from "./pages/Login/Login";
 import { useState } from "react";
 import { useCallback } from "react";
-import { User } from "./types/User";
+import { UserType } from "./types/UserType";
 import { ChatRoom } from "./pages/ChatRoom/ChatRoom";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     () => Boolean(localStorage.getItem("loginToken")) || false
   );
-  const [user, setUser] = useState<User>(undefined);
-  const handleLoginComplete = useCallback((user: User) => {
+  const [user, setUser] = useState<UserType>(undefined);
+  const handleLoginComplete = useCallback((user: UserType) => {
     setUser(user);
     setIsLoggedIn(true);
     localStorage.setItem("loginToken", "true");
@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header username={user ? user.name : "Profile"} />
+      <Header username={user?.name || "Profile"} />
       {!isLoggedIn ? (
         <Login onLoginComplete={handleLoginComplete} />
       ) : (

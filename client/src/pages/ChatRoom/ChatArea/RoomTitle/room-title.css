@@ -1,0 +1,19 @@
+.room-title {
+  flex: 0 0 8%;
+  max-height: 8%;
+
+  background: #eee;
+
+  font-size: x-large;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  padding: 5px 0 5px 20px;
+}
+.room-title > img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 100px;
+}

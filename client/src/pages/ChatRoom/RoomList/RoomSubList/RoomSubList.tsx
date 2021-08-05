@@ -6,6 +6,7 @@ type RoomSubListProps = {
   title: string;
   roomEntries: Room[];
   onClickListItem: (id: string) => void;
+  selectedRoomId: string;
 };
 
 const downArrow = "▼";
@@ -28,7 +29,16 @@ const RoomSubList = (props: RoomSubListProps) => {
       {showList && (
         <ul>
           {props.roomEntries.map((entry) => (
-            <li onClick={handleClick} data-id={entry.id} key={entry.id}>
+            <li
+              onClick={handleClick}
+              data-id={entry.id}
+              key={entry.id}
+              className={
+                props.selectedRoomId === entry.id
+                  ? "room-sub-list-selected"
+                  : ""
+              }
+            >
               {entry.name}
             </li>
           ))}

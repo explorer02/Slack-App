@@ -5,10 +5,10 @@ import { StyledInput } from "./StyledInput/StyledInput";
 import { RiLockPasswordFill } from "react-icons/ri";
 import "./login.css";
 import StyledButton from "./StyledButton/StyledButton";
-import { User } from "../../types/User";
+import { UserType } from "../../types/UserType";
 
 type LoginProps = {
-  onLoginComplete: (u: User) => void;
+  onLoginComplete: (u: UserType) => void;
 };
 
 export const Login = (props: LoginProps) => {
@@ -24,10 +24,10 @@ export const Login = (props: LoginProps) => {
       return;
     }
     props.onLoginComplete({
-      name: "Sam",
-      id: "sam",
+      name: "Malcolm",
+      id: "malcolm",
       phone: "+1 12341234",
-      email: "sam@abc.com",
+      email: "malcolm@abc.com",
       lastOnline: 0,
     });
   };

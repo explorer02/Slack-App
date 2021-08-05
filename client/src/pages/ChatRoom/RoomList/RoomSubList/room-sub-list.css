@@ -17,6 +17,11 @@
 }
 
 .room-sub-list-container li:hover {
-  background: red;
+  background: lightseagreen;
+  transition: 0.3s ease-in-out;
+}
+.room-sub-list-selected,
+li.room-sub-list-selected:hover {
+  background: lightsalmon;
   transition: 0.3s ease-in-out;
 }

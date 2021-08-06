@@ -8,12 +8,17 @@ import { CurrentUser } from "./types/User";
 
 import "./App.css";
 import "./global.css";
+import { DEFAULT_AVATAR } from "./constants";
 
 function App() {
   const [user, setUser] = useState<CurrentUser>(undefined);
-  const handleLoginComplete = useCallback((user: CurrentUser) => {
-    setUser(user);
-    localStorage.setItem("loginToken", "true");
+  const handleLoginComplete = useCallback(() => {
+    setUser({
+      profilePicture: DEFAULT_AVATAR,
+      chatRooms: [],
+      name: "Malcolm",
+      id: "malcolm",
+    });
   }, []);
 
   let userName = "Profile";

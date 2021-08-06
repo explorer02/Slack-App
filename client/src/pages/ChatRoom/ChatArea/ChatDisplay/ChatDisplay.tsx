@@ -22,7 +22,6 @@ const findUser = (userList: User[], id: String) => {
   );
 };
 export const ChatDisplay = (props: ChatDisplayProps) => {
-  console.log(props.messages.reverse().map((message) => message.text));
   return (
     <div className="chat-display">
       {props.messages.map((message) => (

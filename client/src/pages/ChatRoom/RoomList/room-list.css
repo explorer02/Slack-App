@@ -1,7 +1,0 @@
-.room-list {
-  flex: 1 0 0%;
-  padding-left: 20px;
-  display: flex;
-  gap: 20px;
-  flex-direction: column;
-}

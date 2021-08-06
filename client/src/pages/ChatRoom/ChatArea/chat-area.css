@@ -1,7 +1,0 @@
-.chat-area {
-  flex: 5 1 0;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}

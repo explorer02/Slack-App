@@ -1,39 +1,47 @@
-import React, { useState } from "react";
-import "./chat-room.css";
+import React, { useState, useCallback } from "react";
+
 import { RoomList } from "./RoomList/RoomList";
 import { ChatArea } from "./ChatArea/ChatArea";
-import { Room } from "./RoomList/RoomType";
-import { ChatRoomType } from "../../types/ChatRoomType";
-import { UserType } from "../../types/UserType";
-import { MessageType } from "../../types/MessageType";
 
-const chatRoomListSome: Room[] = [
+import { DEFAULT_AVATAR } from "../../constants";
+
+import { Message } from "../../types/Message";
+import { ChatRoomMin, ChatRoomMax } from "../../types/ChatRoom";
+import { User } from "../../types/User";
+
+import "./chat-room.css";
+
+const chatRoomListMin: ChatRoomMin[] = [
   { id: "sam_malcolm", name: "Sam", type: "duel" },
   { id: "john_malcolm", name: "John", type: "duel" },
   { id: "jack_malcolm", name: "Jack", type: "duel" },
   { id: "channel1", name: "Book Club", type: "channel" },
   { id: "channel2", name: "ProGamer", type: "channel" },
 ];
-const members: UserType[] = [
+const members: User[] = [
   {
     id: "sam",
     name: "Sam",
+    profilePicture: DEFAULT_AVATAR,
   },
   {
     id: "john",
     name: "John",
+    profilePicture: DEFAULT_AVATAR,
   },
   {
     id: "jack",
     name: "Jack",
+    profilePicture: DEFAULT_AVATAR,
   },
   {
     id: "malcolm",
     name: "Malcolm",
+    profilePicture: DEFAULT_AVATAR,
   },
 ];
 
-const messageList: MessageType[] = [
+const messageList: Message[] = [
   {
     id: "m123",
     timestamp: 1628166241194,
@@ -59,13 +67,14 @@ const messageList: MessageType[] = [
     sender_id: "sam",
   },
 ];
-const chatRoomListAll: ChatRoomType[] = [
+const chatRoomListMax: ChatRoomMax[] = [
   {
     id: "sam_malcolm",
     name: "Sam",
     messages: messageList,
     type: "duel",
     members: [members[0], members[3]],
+    roomImage: DEFAULT_AVATAR,
   },
   {
     id: "john_malcolm",
@@ -73,6 +82,7 @@ const chatRoomListAll: ChatRoomType[] = [
     messages: [],
     type: "duel",
     members: [members[1], members[3]],
+    roomImage: DEFAULT_AVATAR,
   },
   {
     id: "jack_malcolm",
@@ -80,6 +90,7 @@ const chatRoomListAll: ChatRoomType[] = [
     messages: [],
     type: "duel",
     members: [members[2], members[3]],
+    roomImage: DEFAULT_AVATAR,
   },
 
   {
@@ -88,6 +99,7 @@ const chatRoomListAll: ChatRoomType[] = [
     messages: [],
     type: "channel",
     members: [members[0], members[2], members[3]],
+    roomImage: DEFAULT_AVATAR,
   },
 
   {
@@ -96,30 +108,34 @@ const chatRoomListAll: ChatRoomType[] = [
     messages: [],
     type: "channel",
     members: [members[0], members[1], members[3]],
+    roomImage: DEFAULT_AVATAR,
   },
 ];
 
 export const ChatRoom = () => {
-  const [chatRoom, setChatRoom] = useState<ChatRoomType>(chatRoomListAll[0]);
+  const [chatRoom, setChatRoom] = useState<ChatRoomMax>(chatRoomListMax[0]);
+
   const loadChatRoom = (id: string) => {
     setChatRoom(
-      (c) => chatRoomListAll.find((chatRoom) => chatRoom.id === id) || c
+      (c) => chatRoomListMax.find((chatRoom) => chatRoom.id === id) || c
     );
   };
-  const handleMessageSend = (text: string) => {
-    const newMsg: MessageType = {
+
+  const handleMessageSend = useCallback((text: string) => {
+    const newMsg: Message = {
       id: Date.now() + "",
       timestamp: Date.now(),
       text,
       sender_id: "malcolm",
     };
-    setChatRoom({ ...chatRoom, messages: [...chatRoom.messages, newMsg] });
-  };
+    setChatRoom((c) => ({ ...c, messages: [...c.messages, newMsg] }));
+  }, []);
+
   return (
     <div className="chat-room">
       <RoomList
         onClickListItem={loadChatRoom}
-        rooms={chatRoomListSome}
+        rooms={chatRoomListMin}
         selectedRoomId={chatRoom.id}
       />
       <ChatArea chatRoom={chatRoom} onMessageSend={handleMessageSend} />

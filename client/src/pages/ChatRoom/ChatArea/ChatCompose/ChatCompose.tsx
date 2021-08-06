@@ -1,17 +1,19 @@
-import React, { useState } from "react";
-import { ChangeEvent } from "react";
-import { FormEvent } from "react";
-import StyledButton from "../../../Login/StyledButton/StyledButton";
+import React, { useState, ChangeEvent, FormEvent } from "react";
+
+import { Button } from "../../../../components/Button/Button";
+
 import "./chat-compose.css";
 
 type ChatComposeProps = {
   onMessageSend: (text: string) => void;
 };
 
-const ChatCompose = (props: ChatComposeProps) => {
+export const ChatCompose = (props: ChatComposeProps) => {
   const [text, setText] = useState("");
+
   const handleTextChange = (ev: ChangeEvent<HTMLTextAreaElement>) =>
     setText(ev.target.value);
+
   const handleSubmit = (ev: FormEvent) => {
     ev.preventDefault();
     if (text.length > 0) {
@@ -19,6 +21,7 @@ const ChatCompose = (props: ChatComposeProps) => {
       setText("");
     }
   };
+
   return (
     <div className="chat-compose">
       <form className="chat-compose-form" onSubmit={handleSubmit}>
@@ -28,10 +31,8 @@ const ChatCompose = (props: ChatComposeProps) => {
           value={text}
           onChange={handleTextChange}
         ></textarea>
-        <StyledButton type="submit" text="Send" />
+        <Button type="submit" text="Send" />
       </form>
     </div>
   );
 };
-
-export default ChatCompose;

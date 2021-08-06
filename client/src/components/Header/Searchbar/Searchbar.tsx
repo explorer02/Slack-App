@@ -1,6 +1,8 @@
-import "./searchbar.css";
 import { FaSearch } from "react-icons/fa";
-const Searchbar = () => {
+
+import "./searchbar.css";
+
+export const Searchbar = () => {
   return (
     <div className="searchbar">
       <FaSearch />
@@ -8,5 +10,3 @@ const Searchbar = () => {
     </div>
   );
 };
-
-export default Searchbar;

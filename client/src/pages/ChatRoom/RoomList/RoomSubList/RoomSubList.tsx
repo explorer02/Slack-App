@@ -1,10 +1,12 @@
 import React, { MouseEvent, useState } from "react";
-import { Room } from "../RoomType";
+
+import { ChatRoomMin } from "../../../../types/ChatRoom";
+
 import "./room-sub-list.css";
 
 type RoomSubListProps = {
   title: string;
-  roomEntries: Room[];
+  roomEntries: ChatRoomMin[];
   onClickListItem: (id: string) => void;
   selectedRoomId: string;
 };
@@ -12,11 +14,10 @@ type RoomSubListProps = {
 const downArrow = "▼";
 const rightArrow = "►";
 
-const RoomSubList = (props: RoomSubListProps) => {
+export const RoomSubList = (props: RoomSubListProps) => {
   const [showList, setShowList] = useState(true);
   const handleToggleList = () => setShowList((c) => !c);
   const handleClick = (ev: MouseEvent<HTMLLIElement>) => {
-    console.log(ev.currentTarget.dataset.id);
     if (ev?.currentTarget?.dataset?.id !== undefined)
       props.onClickListItem(ev.currentTarget.dataset.id);
   };
@@ -47,5 +48,3 @@ const RoomSubList = (props: RoomSubListProps) => {
     </div>
   );
 };
-
-export default RoomSubList;

@@ -1,31 +1,33 @@
-import "./App.css";
-import "./global.css";
+import React, { useState, useCallback } from "react";
+
 import { Header } from "./components/Header/Header";
 import { Login } from "./pages/Login/Login";
-import { useState } from "react";
-import { useCallback } from "react";
-import { UserType } from "./types/UserType";
 import { ChatRoom } from "./pages/ChatRoom/ChatRoom";
 
+import { CurrentUser } from "./types/User";
+
+import "./App.css";
+import "./global.css";
+
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    () => Boolean(localStorage.getItem("loginToken")) || false
-  );
-  const [user, setUser] = useState<UserType>(undefined);
-  const handleLoginComplete = useCallback((user: UserType) => {
+  const [user, setUser] = useState<CurrentUser>(undefined);
+  const handleLoginComplete = useCallback((user: CurrentUser) => {
     setUser(user);
-    setIsLoggedIn(true);
     localStorage.setItem("loginToken", "true");
   }, []);
 
+  let userName = "Profile";
+  let page = <Login onLoginComplete={handleLoginComplete} />;
+
+  if (user !== undefined) {
+    userName = user.name;
+    page = <ChatRoom />;
+  }
+
   return (
     <div className="App">
-      <Header username={user?.name || "Profile"} />
-      {!isLoggedIn ? (
-        <Login onLoginComplete={handleLoginComplete} />
-      ) : (
-        <ChatRoom />
-      )}
+      <Header userName={userName} />
+      {page}
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import React from "react";
-import { MessageType } from "../../../../../types/MessageType";
-import { UserType } from "../../../../../types/UserType";
+
+import { Message as MessageType } from "../../../../../types/Message";
+import { User } from "../../../../../types/User";
+
 import "./message.css";
 
 type MessageProps = {
   message: MessageType;
-  user: UserType;
+  user: User;
 };
-const getDate = (timestamp: number) => {
+const getDateFromMillis = (timestamp: number) => {
   return new Intl.DateTimeFormat("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -18,17 +20,11 @@ export const Message = (props: MessageProps) => {
   if (props.user === undefined) return null;
   return (
     <div className="message-container">
-      <img
-        src={
-          props.user.profilePicture ||
-          "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"
-        }
-        alt=""
-      />
+      <img src={props.user.profilePicture} alt="" />
       <div>
         <p className="message-user">
           <span>{props.user.name}</span>
-          <span>{getDate(props.message.timestamp)}</span>
+          <span>{getDateFromMillis(props.message.timestamp)}</span>
         </p>
         <p className="message-text">{props.message.text}</p>
       </div>

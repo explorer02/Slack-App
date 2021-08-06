@@ -1,0 +1,35 @@
+.header {
+  background-color: white;
+  height: 70px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.header-home {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logo {
+  background: url(../../assets/slack.svg);
+  background-repeat: no-repeat;
+
+  height: 45px;
+  width: 45px;
+}
+.header-home > p {
+  font-size: x-large;
+  font-weight: 700;
+}
+
+.header-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: x-large;
+}

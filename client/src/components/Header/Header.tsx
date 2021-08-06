@@ -12,7 +12,7 @@ export const Header = (props: HeaderProps) => {
     <div className="header">
       <div className="header-home">
         <div className="header-logo"></div>
-        <p>Slack</p>
+        <p className="header-home-title">Slack</p>
       </div>
       <Searchbar />
       <div className="header-profile">

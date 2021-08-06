@@ -1,8 +1,9 @@
 :root {
   --color-primary: #007ee5;
   --color-border: #4885c9;
-  --color-background: #f0f2f5;
+  --color-background: hsl(216, 20%, 95%);
   --border-radius: 5px;
+  --header-height: 70px;
 }
 *,
 *::before,

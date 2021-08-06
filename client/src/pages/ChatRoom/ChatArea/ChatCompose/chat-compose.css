@@ -2,6 +2,7 @@
   flex: 0 0 8%;
   max-height: 20%;
   background-color: white;
+  border-top: 1px solid var(--color-border);
 }
 .chat-compose-form {
   display: flex;
@@ -10,7 +11,7 @@
   align-items: center;
   justify-content: center;
 }
-.chat-compose-form > textarea {
+.chat-compose-form-input {
   flex: 1 0 95%;
   outline: none;
   height: auto;

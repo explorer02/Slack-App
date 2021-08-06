@@ -24,7 +24,9 @@ export const RoomSubList = (props: RoomSubListProps) => {
   return (
     <div className="room-sub-list-container">
       <p className="room-sub-list-title" onClick={handleToggleList}>
-        <button>{showList ? downArrow : rightArrow}</button>
+        <button className="room-sub-list-expand">
+          {showList ? downArrow : rightArrow}
+        </button>
         {props.title}
       </p>
       {showList && (
@@ -35,9 +37,10 @@ export const RoomSubList = (props: RoomSubListProps) => {
               data-id={entry.id}
               key={entry.id}
               className={
-                props.selectedRoomId === entry.id
-                  ? "room-sub-list-selected"
-                  : ""
+                "room-sub-list-item " +
+                (props.selectedRoomId === entry.id
+                  ? "room-sub-list-item-selected"
+                  : "")
               }
             >
               {entry.name}

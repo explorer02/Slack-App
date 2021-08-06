@@ -4,7 +4,7 @@
 .room-sub-list-title {
   margin-bottom: 10px;
 }
-.room-sub-list-title > button {
+.room-sub-list-expand {
   outline: none;
   border: none;
   margin-right: 5px;
@@ -16,12 +16,12 @@
   margin-left: 15px;
 }
 
-.room-sub-list-container li:hover {
+.room-sub-list-item:hover {
   background: lightseagreen;
   transition: 0.3s ease-in-out;
 }
-.room-sub-list-selected,
-li.room-sub-list-selected:hover {
+.room-sub-list-item-selected,
+.room-sub-list-item-selected:hover {
   background: lightsalmon;
   transition: 0.3s ease-in-out;
 }

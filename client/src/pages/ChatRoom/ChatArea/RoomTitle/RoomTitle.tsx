@@ -10,7 +10,7 @@ type RoomTitleProps = {
 export const RoomTitle = (props: RoomTitleProps) => {
   return (
     <div className="room-title">
-      <img src={props.roomImage} alt="user" />
+      <img src={props.roomImage} alt="user" className="room-title-room-image" />
       {props.roomName}
     </div>
   );

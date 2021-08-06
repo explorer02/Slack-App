@@ -26,6 +26,7 @@ export const ChatCompose = (props: ChatComposeProps) => {
     <div className="chat-compose">
       <form className="chat-compose-form" onSubmit={handleSubmit}>
         <textarea
+          className="chat-compose-form-input"
           rows={3}
           placeholder="Message..."
           value={text}

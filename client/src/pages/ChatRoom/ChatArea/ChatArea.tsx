@@ -16,6 +16,7 @@ import { useMutation } from "../../../hooks/useMutation";
 import { sendMessage } from "../../../server/message";
 import { CurrentUserContext } from "../../../contexts/CurrentUserContext";
 import { Message as MessageType } from "../../../types/Message";
+import { DEFAULT_AVATAR } from "../../../constants";
 
 type ChatAreaProps = {
   // onMessageSend: (text: string) => void;
@@ -32,7 +33,7 @@ export const ChatArea = (props: ChatAreaProps) => {
 
   const chatRoomQuery = useQuery(fetchChatRoom, {
     enabled: props.chatRoomID !== undefined,
-    // refetchInterval: 2,
+    refetchInterval: 2,
   });
 
   const chatRoom: ChatRoomMax = chatRoomQuery.data;
@@ -65,13 +66,28 @@ export const ChatArea = (props: ChatAreaProps) => {
     //TODO: optimize
   );
 
-  if (chatRoom === undefined) return <p>Please Select a Chat</p>;
-  if (userListQuery.status === "loading" || chatRoomQuery.status === "loading")
-    return <p>Loading...</p>;
+  // console.log(chatRoomQuery, userListQuery, messageMutation);
+
+  let roomName: string = "Please Select a ChatRoom",
+    roomImage: string = DEFAULT_AVATAR,
+    memberList: User[] = [],
+    messageList: MessageType[] = [];
+  if (chatRoom !== undefined) {
+    roomName = chatRoom.name;
+    roomImage = chatRoom.roomImage;
+    if (members !== undefined) {
+      messageList = chatRoom.messages;
+      memberList = members;
+    }
+  }
+  // if (chatRoom === undefined) return <p>Please Select a Chat</p>;
+  // if (userListQuery.status === "loading" || chatRoomQuery.status === "loading")
+  //   return <p>Loading...</p>;
+
   return (
     <div className="chat-area">
-      <RoomTitle roomName={chatRoom.name} roomImage={chatRoom.roomImage} />
-      <ChatDisplay messages={chatRoom.messages} members={members} />
+      <RoomTitle roomName={roomName} roomImage={roomImage} />
+      <ChatDisplay messages={messageList} members={memberList} />
       <ChatCompose onMessageSend={handleMessageSend} />
     </div>
   );

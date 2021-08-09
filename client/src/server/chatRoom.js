@@ -14,6 +14,7 @@ const getChatRoomHelper = (id, attributes) => {
   attributes.forEach((attribute) => {
     chatRoom[attribute] = result[attribute];
   });
+  
   return chatRoom;
 };
 

@@ -18,6 +18,7 @@ export const useQuery = (
   const [error, setError] = useState<Error | undefined>(undefined);
 
   const fetchQuery = useCallback(() => {
+    console.log("Fetching Data");
     setStatus("loading");
     callback()
       .then((res) => {
@@ -33,21 +34,29 @@ export const useQuery = (
       });
   }, [callback]);
   useEffect(() => {
-    if (options.enabled) {
+    if (options.enabled === true) {
       fetchQuery();
-    }
-  }, [fetchQuery, options.enabled]);
-
-  useEffect(() => {
-    if (options.refetchInterval && options.refetchInterval > 0) {
-      const id = setInterval(() => {
-        fetchQuery();
+      if (options.refetchInterval && options.refetchInterval > 0) {
+        const id = setInterval(() => {
+          fetchQuery();
+        }, options.refetchInterval * 1000);
         return () => {
           clearInterval(id);
         };
-      }, options.refetchInterval * 1000);
+      }
     }
-  }, [fetchQuery, options.refetchInterval]);
+  }, [fetchQuery, options.enabled, options.refetchInterval]);
+
+  // useEffect(() => {
+  //   if (options.refetchInterval && options.refetchInterval > 0) {
+  //     const id = setInterval(() => {
+  //       fetchQuery();
+  //     }, options.refetchInterval * 1000);
+  //     return () => {
+  //       clearInterval(id);
+  //     };
+  //   }
+  // }, [fetchQuery, options.refetchInterval]);
 
   return { status, data, error };
 };

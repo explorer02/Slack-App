@@ -21,6 +21,7 @@ export const useQuery = (
     setStatus("loading");
     callback()
       .then((res) => {
+        //TODO order
         setData(res);
         setError(undefined);
         setStatus("success");

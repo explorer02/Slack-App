@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 
 import { ChatCompose } from "./ChatCompose/ChatCompose";
 import { ChatDisplay } from "./ChatDisplay/ChatDisplay";
@@ -12,13 +12,19 @@ import { CHATROOM_MAX_ATTRIBUTES, USER_ATTRIBUTES } from "../../../attributes";
 import { getChatRoom } from "../../../server/chatRoom";
 import { useQuery } from "../../../hooks/useQuery";
 import { User } from "../../../types/User";
+import { useMutation } from "../../../hooks/useMutation";
+import { sendMessage } from "../../../server/message";
+import { CurrentUserContext } from "../../../contexts/CurrentUserContext";
+import { Message as MessageType } from "../../../types/Message";
 
 type ChatAreaProps = {
-  onMessageSend: (text: string) => void;
+  // onMessageSend: (text: string) => void;
   chatRoomID: string | undefined;
 };
 
 export const ChatArea = (props: ChatAreaProps) => {
+  const currentUser = useContext(CurrentUserContext);
+
   const fetchChatRoom = useCallback(
     () => getChatRoom(props.chatRoomID, CHATROOM_MAX_ATTRIBUTES),
     [props.chatRoomID]
@@ -26,6 +32,7 @@ export const ChatArea = (props: ChatAreaProps) => {
 
   const chatRoomQuery = useQuery(fetchChatRoom, {
     enabled: props.chatRoomID !== undefined,
+    // refetchInterval: 2,
   });
 
   const chatRoom: ChatRoomMax = chatRoomQuery.data;
@@ -40,7 +47,23 @@ export const ChatArea = (props: ChatAreaProps) => {
   });
   const members: User[] = userListQuery.data;
 
-  // console.log(props.chatRoomID, chatRoomQuery, userListQuery);
+  const messageMutation = useMutation(sendMessage);
+
+  const handleMessageSend = useCallback(
+    (text: string) => {
+      if (currentUser !== undefined) {
+        const newMsg: MessageType = {
+          id: Date.now() + "",
+          timestamp: Date.now(),
+          text,
+          sender_id: currentUser.id,
+        };
+        messageMutation.mutate(props.chatRoomID, newMsg);
+      }
+    },
+    [currentUser, messageMutation, props.chatRoomID]
+    //TODO: optimize
+  );
 
   if (chatRoom === undefined) return <p>Please Select a Chat</p>;
   if (userListQuery.status === "loading" || chatRoomQuery.status === "loading")
@@ -49,7 +72,7 @@ export const ChatArea = (props: ChatAreaProps) => {
     <div className="chat-area">
       <RoomTitle roomName={chatRoom.name} roomImage={chatRoom.roomImage} />
       <ChatDisplay messages={chatRoom.messages} members={members} />
-      <ChatCompose onMessageSend={props.onMessageSend} />
+      <ChatCompose onMessageSend={handleMessageSend} />
     </div>
   );
 };

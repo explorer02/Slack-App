@@ -1,1 +1,1 @@
-export const DELAY_TIME = 1;
+export const DELAY_TIME = 0.3;

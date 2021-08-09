@@ -7,7 +7,7 @@ const users = [
     name: "Sam",
     phone: "+1 1234",
     email: "sam@abc.com",
-    chatRooms: [],
+    chatRooms: ["sam_malcolm", "channel1", "channel2"],
     profilePicture: DEFAULT_AVATAR,
   },
   {
@@ -16,7 +16,7 @@ const users = [
     name: "John",
     phone: "+1 1234",
     email: "john@abc.com",
-    chatRooms: [],
+    chatRooms: ["john_malcolm", "channel2"],
     profilePicture: DEFAULT_AVATAR,
   },
   {
@@ -25,7 +25,7 @@ const users = [
     name: "Jack",
     phone: "+1 1234",
     email: "jack@abc.com",
-    chatRooms: [],
+    chatRooms: ["jack_malcolm", "channel1"],
     profilePicture: DEFAULT_AVATAR,
   },
   {
@@ -34,7 +34,13 @@ const users = [
     name: "malcolm",
     phone: "+1 1234",
     email: "malcolm@abc.com",
-    chatRooms: [],
+    chatRooms: [
+      "sam_malcolm",
+      "john_malcolm",
+      "jack_malcolm",
+      "channel1",
+      "channel2",
+    ],
     profilePicture: DEFAULT_AVATAR,
   },
 ];
@@ -99,7 +105,6 @@ const chatRooms = [
     members: ["sam", "jack", "malcolm"],
     roomImage: DEFAULT_AVATAR,
   },
-
   {
     id: "channel2",
     name: "ProGamer",

@@ -9,7 +9,7 @@ type QueryOptions = {
 
 export const useQuery = (
   callback: QueryFunction,
-  options: QueryOptions = { enabled: false, refetchInterval: -1 }
+  options: QueryOptions = { enabled: true, refetchInterval: -1 }
 ) => {
   const [status, setStatus] = useState<
     "idle" | "loading" | "error" | "success"
@@ -21,9 +21,9 @@ export const useQuery = (
     setStatus("loading");
     callback()
       .then((res) => {
-        setStatus("success");
         setData(res);
         setError(undefined);
+        setStatus("success");
       })
       .catch((err) => {
         setStatus("error");

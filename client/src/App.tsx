@@ -8,28 +8,26 @@ import { CurrentUser } from "./types/User";
 
 import "./App.css";
 import "./global.css";
-// import { DEFAULT_AVATAR } from "./constants";
 import { useQuery } from "./hooks/useQuery";
 import { getUser } from "./server/users";
+import { CURRENT_USER_ATTRIBUTES } from "./attributes";
+import { CurrentUserContext } from "./contexts/CurrentUserContext";
 
 function App() {
   const [uid, setUid] = useState<string | undefined>(undefined);
   const [enabled, setEnabled] = useState<boolean>(false);
 
-  const fetchUser = useCallback(() => getUser(uid), [uid]);
+  const fetchUser = useCallback(
+    () => getUser(uid, CURRENT_USER_ATTRIBUTES),
+    [uid]
+  );
 
-  const query = useQuery(fetchUser, { enabled });
-  const user: CurrentUser = query.data;
+  const userQuery = useQuery(fetchUser, { enabled });
+  const user: CurrentUser = userQuery.data;
 
   const handleLoginComplete = useCallback((id: string) => {
     setUid(id);
     setEnabled(true);
-    // setUser({
-    //   profilePicture: DEFAULT_AVATAR,
-    //   chatRooms: [],
-    //   name: "Malcolm",
-    //   id: "malcolm",
-    // });
   }, []);
 
   let userName = "Profile";
@@ -41,10 +39,12 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Header userName={userName} />
-      {page}
-    </div>
+    <CurrentUserContext.Provider value={user}>
+      <div className="App">
+        <Header userName={userName} />
+        {page}
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent } from "react";
 import { validateLogin } from "../../server/auth";
 
 import { GrLogin } from "react-icons/gr";
@@ -13,50 +13,31 @@ import { useMutation } from "../../hooks/useMutation";
 import "./login.css";
 
 type LoginProps = {
-  onLoginComplete: () => void;
+  onLoginComplete: (id: string) => void;
 };
 
 export const Login = (props: LoginProps) => {
   const [id, handleIDChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
-  const [loginStatus, setLoginStatus] = useState<string>("");
-  const [loginCalled, setLoginCalled] = useState(true);
 
+  let loginStatus = "";
   const mutation = useMutation(validateLogin);
 
-  console.log(mutation);
-  if (!loginCalled && mutation.data === true) {
-    setLoginStatus("Credentials Verified...");
-    props.onLoginComplete();
-    setLoginCalled(true);
-  } else if (!loginCalled && mutation.data === false) {
-    setLoginStatus("Error logging in...");
-    setLoginCalled(true);
-  }
+  if (mutation.status === "loading") loginStatus = "Verifying credentials...";
 
-  // if (mutation.status === "success" && mutation.data === true) {
-  //   setLoginStatus("Credentials Verified...");
-  //   mutation.reset();
-  //   props.onLoginComplete();
-  // } else if (mutation.error !== undefined || mutation.data === false) {
-  //   mutation.reset();
-  //   setLoginStatus("Error logging in...");
-  // }
+  if (mutation.status === "error") {
+    loginStatus = mutation?.error?.message || "Some error occured...";
+  }
+  if (mutation.status === "success") {
+    loginStatus = "Login validated...";
+    setTimeout(() => {
+      props.onLoginComplete(id);
+    }, 300);
+  }
 
   const handleLogin = (ev: FormEvent) => {
     ev.preventDefault();
-    setLoginStatus("Verifying Credentials...");
     mutation.mutate(id, password);
-    setLoginCalled(false);
-    // setLoginStatus("Please wait...");
-    // validateLogin(id, password).then((res) => {
-    //   if (res) {
-    //     setLoginStatus("Login verified...");
-    //     setTimeout(() => props.onLoginComplete(), 300);
-    //   } else {
-    //     setLoginStatus("Login error...");
-    //   }
-    // });
   };
 
   return (

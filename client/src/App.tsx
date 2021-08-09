@@ -8,17 +8,28 @@ import { CurrentUser } from "./types/User";
 
 import "./App.css";
 import "./global.css";
-import { DEFAULT_AVATAR } from "./constants";
+// import { DEFAULT_AVATAR } from "./constants";
+import { useQuery } from "./hooks/useQuery";
+import { getUser } from "./server/users";
 
 function App() {
-  const [user, setUser] = useState<CurrentUser>(undefined);
-  const handleLoginComplete = useCallback(() => {
-    setUser({
-      profilePicture: DEFAULT_AVATAR,
-      chatRooms: [],
-      name: "Malcolm",
-      id: "malcolm",
-    });
+  const [uid, setUid] = useState<string | undefined>(undefined);
+  const [enabled, setEnabled] = useState<boolean>(false);
+
+  const fetchUser = useCallback(() => getUser(uid), [uid]);
+
+  const query = useQuery(fetchUser, { enabled });
+  const user: CurrentUser = query.data;
+
+  const handleLoginComplete = useCallback((id: string) => {
+    setUid(id);
+    setEnabled(true);
+    // setUser({
+    //   profilePicture: DEFAULT_AVATAR,
+    //   chatRooms: [],
+    //   name: "Malcolm",
+    //   id: "malcolm",
+    // });
   }, []);
 
   let userName = "Profile";

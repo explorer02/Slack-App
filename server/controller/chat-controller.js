@@ -7,23 +7,17 @@ exports.ChatController = class {
     );
     return data;
   }
-  async createChatRoom(members, id) {
-    if (members.length < 2) return 0;
-    if (!id) {
-      if (members.length > 2) return false;
-      id = members.join("_");
-    }
-    let type;
-    if (members.length == 2) {
-      type = "duel";
-    } else type = "channel";
-    const chatRoom = { id, type, members, messages: [] };
-    console.log(chatRoom);
+  async createChatRoom(chatRoom) {
     return (await writeJSONFIle(
-      __dirname + `/../storage/chat_rooms/${id}.json`,
+      __dirname + `/../storage/chat_rooms/${chatRoom.id}.json`,
       chatRoom
     ))
       ? chatRoom
       : false;
+  }
+  async addMessage(roomId, message) {
+    const chatRoom = await this.getChatRoom(roomId);
+    chatRoom.messages.push(message);
+    return await this.createChatRoom(chatRoom);
   }
 };

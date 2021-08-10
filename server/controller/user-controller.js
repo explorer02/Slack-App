@@ -10,15 +10,14 @@ exports.UserController = class {
 
   async getUser(id) {
     const data = await this.getAllUsers();
-    if (!data) return false;
+    if (!data) return;
     const user = data.find((user) => user.id === id);
     return user;
   }
   async saveUser(user) {
     const data = await this.getAllUsers();
     if (!data) return false;
-    const newUser = { ...user, lastOnline: 0, chat_rooms: [] };
-    data.push(newUser);
+    data.push(user);
     return await this.writeAllUsers(data);
   }
   async addChatRoom(members, room_id) {

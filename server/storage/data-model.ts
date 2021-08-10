@@ -9,10 +9,7 @@ type User = {
   id: string;
   password: string;
   name: string;
-  email: string;
-  phone: string;
   profilePicture: string;
-  lastOnline: number;
   chat_rooms: string[];
 };
 
@@ -22,4 +19,5 @@ type ChatRoom = {
   type: "duel" | "channel";
   members: string[];
   messages: Message[];
+  roomImage: string;
 };

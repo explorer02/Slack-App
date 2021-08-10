@@ -2,5 +2,6 @@
   "id": "channel1",
   "type": "channel",
   "members": ["john", "sam", "jack"],
-  "messages": []
+  "messages": [],
+  "roomImage": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"
 }

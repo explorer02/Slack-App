@@ -6,7 +6,6 @@ exports.AuthController = class {
   }
   async verifyLogin(id, password) {
     const user = await this.userController.getUser(id);
-    console.log(user);
     if (user && user.password === password) return true;
     return false;
   }

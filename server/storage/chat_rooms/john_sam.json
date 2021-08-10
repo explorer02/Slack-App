@@ -1,1 +1,7 @@
-{ "id": "john_sam", "type": "duel", "members": ["john", "sam"], "messages": [] }
+{
+  "id": "john_sam",
+  "type": "duel",
+  "members": ["john", "sam"],
+  "messages": [],
+  "roomImage": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"
+}

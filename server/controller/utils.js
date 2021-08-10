@@ -5,9 +5,8 @@ exports.readJSONFIle = async (path) => {
     const data = await fs.readFile(path, "utf8");
     return JSON.parse(data);
   } catch (error) {
-    console.error("[readJSONFile]", error);
+    console.error("[readJSONFileError]", error);
   }
-  return false;
 };
 
 exports.writeJSONFIle = async (path, data) => {
@@ -15,7 +14,7 @@ exports.writeJSONFIle = async (path, data) => {
     await fs.writeFile(path, JSON.stringify(data), { encoding: "utf8" });
     return true;
   } catch (error) {
-    console.error("[writeJSONFile]", error);
+    console.error("[writeJSONFileError]", error);
   }
   return false;
 };

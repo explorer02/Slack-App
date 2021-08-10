@@ -2,6 +2,7 @@
   "id": "sam_malcolm",
   "members": ["sam", "malcolm"],
   "type": "duel",
+  "roomImage": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
   "messages": [
     {
       "id": "sam_malcolm_1axsd3",
@@ -26,6 +27,12 @@
       "timestamp": 1627886611734,
       "text": "Bye!",
       "sender_id": "sam"
+    },
+    {
+      "timestamp": 1628593623441,
+      "text": "Hello Sammy!",
+      "sender_id": "malcolm",
+      "id": "sam_malcolm_1628593623441"
     }
   ]
 }

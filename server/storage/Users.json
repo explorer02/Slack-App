@@ -3,35 +3,28 @@
     "id": "john",
     "password": "1234",
     "name": "John Reese",
-    "email": "john@abc.com",
-    "phone": "+1 11223344",
-    "lastOnline": 0,
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
     "chat_rooms": ["john_malcolm", "john_sam", "channel1"]
   },
   {
     "id": "sam",
     "password": "1234",
     "name": "Sam Groves",
-    "email": "sam@abc.com",
-    "phone": "+1 99887766",
-    "lastOnline": 1627886663434,
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
     "chat_rooms": ["sam_malcolm", "john_sam", "channel1"]
   },
   {
     "id": "malcolm",
     "password": "12345678",
     "name": "Malcolm Wilkerson",
-    "email": "malcolm@abc.com",
-    "phone": "+1 00991100",
-    "lastOnline": 0,
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
     "chat_rooms": ["john_malcolm", "sam_malcolm"]
   },
   {
     "id": "jack",
     "password": "1234",
     "name": "Jack",
-    "email": "jack@abc.com",
-    "lastOnline": 0,
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
     "chat_rooms": ["channel1"]
   }
 ]

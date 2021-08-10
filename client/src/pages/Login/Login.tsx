@@ -21,14 +21,12 @@ export const Login = (props: LoginProps) => {
   const [password, handlePasswordChange] = useInput("");
 
   let loginStatus = "";
-  const mutation = useMutation(validateLogin);
+  const mutation = useMutation<boolean>(validateLogin);
 
   if (mutation.status === "loading") loginStatus = "Verifying credentials...";
-
-  if (mutation.status === "error") {
-    loginStatus = mutation?.error?.message || "Some error occured...";
-  }
-  if (mutation.status === "success") {
+  else if (mutation.status === "error") {
+    loginStatus = mutation.error?.message || "Some error occured...";
+  } else if (mutation.status === "success") {
     loginStatus = "Login validated...";
     setTimeout(() => {
       props.onLoginComplete(id);

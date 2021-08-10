@@ -1,36 +1,35 @@
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
 
-type QueryFunction = (...args: any[]) => Promise<any>;
+type QueryFunction = () => Promise<any>;
 type QueryOptions = {
   enabled?: boolean;
   refetchInterval?: number;
 };
+type QueryState<T> = {
+  status: "idle" | "loading" | "error" | "success";
+  data: T | undefined;
+  error: Error | undefined;
+};
 
-export const useQuery = (
+export function useQuery<T>(
   callback: QueryFunction,
   options: QueryOptions = { enabled: true, refetchInterval: -1 }
-) => {
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "error" | "success"
-  >("idle");
-  const [data, setData] = useState<any>(undefined);
-  const [error, setError] = useState<Error | undefined>(undefined);
+) {
+  const [state, setState] = useState<QueryState<T>>({
+    status: "idle",
+    data: undefined,
+    error: undefined,
+  });
 
   const fetchQuery = useCallback(() => {
-    console.log("Fetching Data");
-    setStatus("loading");
+    setState((s) => ({ ...s, status: "loading" }));
     callback()
       .then((res) => {
-        //TODO order
-        setData(res);
-        setError(undefined);
-        setStatus("success");
+        setState({ status: "success", data: res, error: undefined });
       })
       .catch((err) => {
-        setStatus("error");
-        setData(undefined);
-        setError(err);
+        setState({ status: "error", data: undefined, error: err });
       });
   }, [callback]);
   useEffect(() => {
@@ -47,16 +46,5 @@ export const useQuery = (
     }
   }, [fetchQuery, options.enabled, options.refetchInterval]);
 
-  // useEffect(() => {
-  //   if (options.refetchInterval && options.refetchInterval > 0) {
-  //     const id = setInterval(() => {
-  //       fetchQuery();
-  //     }, options.refetchInterval * 1000);
-  //     return () => {
-  //       clearInterval(id);
-  //     };
-  //   }
-  // }, [fetchQuery, options.refetchInterval]);
-
-  return { status, data, error };
-};
+  return state;
+}

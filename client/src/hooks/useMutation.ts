@@ -1,5 +1,4 @@
-import { useCallback } from "react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type MutationFunction = (...args: any[]) => Promise<any>;
 type MutationOptions = {
@@ -9,31 +8,33 @@ type MutationOptions = {
   onSettled?: () => void;
 };
 
-export const useMutation = (
+type MutationState<T> = {
+  status: "idle" | "loading" | "error" | "success";
+  data: T | undefined;
+  error: Error | undefined;
+};
+
+export function useMutation<T>(
   callback: MutationFunction,
   options?: MutationOptions
-) => {
-  const [data, setData] = useState<any>(undefined);
-  const [error, setError] = useState<Error | undefined>(undefined);
+) {
+  const [state, setState] = useState<MutationState<T>>({
+    status: "idle",
+    data: undefined,
+    error: undefined,
+  });
 
-  const [status, setStatus] = useState<
-    "loading" | "success" | "error" | "idle"
-  >("idle");
   const mutate = useCallback(
     (...args: any[]) => {
-      setStatus("loading");
+      setState((s) => ({ ...s, status: "loading" }));
       options?.onMutate?.();
       callback(...args)
         .then((res) => {
           options?.onSuccess?.();
-          setStatus("success");
-          setData(res);
-          setError(undefined);
+          setState({ status: "success", data: res, error: undefined });
         })
         .catch((err) => {
-          setStatus("error");
-          setData(undefined);
-          setError(err);
+          setState({ status: "error", data: undefined, error: err });
         })
         .finally(() => {
           options?.onSettled?.();
@@ -42,15 +43,11 @@ export const useMutation = (
     [callback, options]
   );
   const reset = useCallback(() => {
-    setStatus("idle");
-    setData(undefined);
-    setError(undefined);
+    setState({ status: "idle", data: undefined, error: undefined });
   }, []);
   return {
     mutate,
-    status,
-    data,
-    error,
+    ...state,
     reset,
   };
-};
+}

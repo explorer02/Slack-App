@@ -6,6 +6,7 @@ import "./chat-compose.css";
 
 type ChatComposeProps = {
   onMessageSend: (text: string) => void;
+  disabled: boolean;
 };
 
 export const ChatCompose = (props: ChatComposeProps) => {
@@ -32,7 +33,7 @@ export const ChatCompose = (props: ChatComposeProps) => {
           value={text}
           onChange={handleTextChange}
         ></textarea>
-        <Button type="submit" text="Send" />
+        <Button type="submit" text="Send" disabled={props.disabled} />
       </form>
     </div>
   );

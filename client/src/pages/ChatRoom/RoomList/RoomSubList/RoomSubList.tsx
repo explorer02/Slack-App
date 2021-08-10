@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useCallback, useState } from "react";
 
 import { ChatRoomMin } from "../../../../types/ChatRoom";
 
@@ -16,7 +16,9 @@ const rightArrow = "►";
 
 export const RoomSubList = (props: RoomSubListProps) => {
   const [showList, setShowList] = useState(true);
-  const handleToggleList = () => setShowList((c) => !c);
+
+  const handleToggleList = useCallback(() => setShowList((c) => !c), []);
+
   const handleClick = (ev: MouseEvent<HTMLLIElement>) => {
     if (ev?.currentTarget?.dataset?.id !== undefined)
       props.onClickListItem(ev.currentTarget.dataset.id);

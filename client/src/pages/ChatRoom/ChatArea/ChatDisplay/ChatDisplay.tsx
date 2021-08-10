@@ -15,8 +15,8 @@ type ChatDisplayProps = {
 const findUser = (userList: User[], id: String) => {
   return (
     userList.find((user) => user && user.id === id) || {
-      id: "",
-      name: "",
+      id: "12345",
+      name: "UNKNOWN_USER",
       profilePicture: DEFAULT_AVATAR,
     }
   );

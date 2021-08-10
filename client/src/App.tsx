@@ -15,19 +15,19 @@ import { CurrentUserContext } from "./contexts/CurrentUserContext";
 
 function App() {
   const [uid, setUid] = useState<string | undefined>(undefined);
-  // const [enabled, setEnabled] = useState<boolean>(false);
-
+  
   const fetchUser = useCallback(
     () => getUser(uid, CURRENT_USER_ATTRIBUTES),
     [uid]
   );
 
-  const userQuery = useQuery(fetchUser, { enabled: uid !== undefined });
-  const user: CurrentUser = userQuery.data;
+  const userQuery = useQuery<CurrentUser>(fetchUser, {
+    enabled: uid !== undefined,
+  });
+  const user = userQuery.data;
 
   const handleLoginComplete = useCallback((id: string) => {
     setUid(id);
-    // setEnabled(true);
   }, []);
 
   let userName = "Profile";

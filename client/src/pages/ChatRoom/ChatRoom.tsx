@@ -5,11 +5,11 @@ import { ChatArea } from "./ChatArea/ChatArea";
 
 import { ChatRoomMin } from "../../types/ChatRoom";
 
-import "./chat-room.css";
 import { getMultipleChatRooms } from "../../server/chatRoom";
 import { CHATROOM_MIN_ATTRIBUTES } from "../../attributes";
 import { useQuery } from "../../hooks/useQuery";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import "./chat-room.css";
 
 export const ChatRoom = () => {
   const [chatRoomID, setChatRoomID] = useState<string | undefined>();
@@ -20,12 +20,12 @@ export const ChatRoom = () => {
     [currentUser]
   );
 
-  const chatRoomListMinQuery = useQuery(fetchChatRoomsMin);
-  const chatRoomListMin: ChatRoomMin[] = chatRoomListMinQuery.data;
+  const chatRoomListMinQuery = useQuery<ChatRoomMin[]>(fetchChatRoomsMin);
+  const chatRoomListMin = chatRoomListMinQuery.data;
 
-  const loadChatRoom = (id: string) => {
+  const loadChatRoom = useCallback((id: string) => {
     setChatRoomID(id);
-  };
+  }, []);
 
   if (
     chatRoomListMinQuery.status === "loading" ||
@@ -40,7 +40,7 @@ export const ChatRoom = () => {
     <div className="chat-room">
       <RoomList
         onClickListItem={loadChatRoom}
-        rooms={chatRoomListMin}
+        rooms={chatRoomListMin || []}
         selectedRoomId={chatRoomID || ""}
       />
       <ChatArea chatRoomID={chatRoomID} />

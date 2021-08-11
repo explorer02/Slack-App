@@ -5,19 +5,24 @@ import { ChatArea } from "./ChatArea/ChatArea";
 
 import { ChatRoomMin } from "../../types/ChatRoom";
 
-import { getMultipleChatRooms } from "../../server/chatRoom";
 import { CHATROOM_MIN_ATTRIBUTES } from "../../attributes";
 import { useQuery } from "../../hooks/useQuery";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "./chat-room.css";
+import { ajaxClient } from "../../ajaxClient";
 
 export const ChatRoom = () => {
   const [chatRoomID, setChatRoomID] = useState<string | undefined>();
   const currentUser = useContext(CurrentUserContext);
 
   const fetchChatRoomsMin = useCallback(
-    () => getMultipleChatRooms(currentUser?.chatRooms, CHATROOM_MIN_ATTRIBUTES),
-    [currentUser]
+    () =>
+      ajaxClient.get(
+        `/users/${currentUser?.id}/chats?fields=${CHATROOM_MIN_ATTRIBUTES.join(
+          ","
+        )}`
+      ),
+    [currentUser?.id]
   );
 
   const chatRoomListMinQuery = useQuery<ChatRoomMin[]>(fetchChatRoomsMin);

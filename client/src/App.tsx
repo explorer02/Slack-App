@@ -9,15 +9,17 @@ import { CurrentUser } from "./types/User";
 import "./App.css";
 import "./global.css";
 import { useQuery } from "./hooks/useQuery";
-import { getUser } from "./server/users";
 import { CURRENT_USER_ATTRIBUTES } from "./attributes";
 import { CurrentUserContext } from "./contexts/CurrentUserContext";
+import { ajaxClient } from "./ajaxClient";
 
 function App() {
   const [uid, setUid] = useState<string | undefined>(undefined);
-  
   const fetchUser = useCallback(
-    () => getUser(uid, CURRENT_USER_ATTRIBUTES),
+    () =>
+      ajaxClient.get<CurrentUser>(
+        `/users/${uid}?fields=${CURRENT_USER_ATTRIBUTES.join(",")}`
+      ),
     [uid]
   );
 

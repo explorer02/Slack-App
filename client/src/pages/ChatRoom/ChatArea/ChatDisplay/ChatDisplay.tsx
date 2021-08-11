@@ -28,7 +28,7 @@ export const ChatDisplay = (props: ChatDisplayProps) => {
         <Message
           key={message.id}
           message={message}
-          user={findUser(props.members, message.sender_id)}
+          user={findUser(props.members, message.senderId)}
         />
       ))}
     </div>

@@ -13,7 +13,7 @@ type RoomListProps = {
 };
 
 export const RoomList = (props: RoomListProps) => {
-  const dms = props.rooms.filter((room) => room.type === "duel");
+  const dms = props.rooms.filter((room) => room.type === "dm");
   const channels = props.rooms.filter((room) => room.type === "channel");
 
   return (

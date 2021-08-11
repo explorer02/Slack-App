@@ -6,18 +6,16 @@ import { RoomTitle } from "./RoomTitle/RoomTitle";
 
 import { ChatRoomMax } from "../../../types/ChatRoom";
 
-import { getChatRoomUsers } from "../../../server/users";
 import { CHATROOM_MAX_ATTRIBUTES, USER_ATTRIBUTES } from "../../../attributes";
-import { getChatRoom } from "../../../server/chatRoom";
 import { useQuery } from "../../../hooks/useQuery";
 import { User } from "../../../types/User";
 import { useMutation } from "../../../hooks/useMutation";
-import { sendMessage } from "../../../server/message";
 import { CurrentUserContext } from "../../../contexts/CurrentUserContext";
 import { Message as MessageType } from "../../../types/Message";
 import { DEFAULT_AVATAR } from "../../../constants";
 
 import "./chat-area.css";
+import { ajaxClient } from "../../../ajaxClient";
 
 type ChatAreaProps = {
   chatRoomID: string | undefined;
@@ -27,9 +25,13 @@ export const ChatArea = (props: ChatAreaProps) => {
   const currentUser = useContext(CurrentUserContext);
 
   const fetchChatRoom = useCallback(
-    () => getChatRoom(props.chatRoomID, CHATROOM_MAX_ATTRIBUTES),
+    () =>
+      ajaxClient.get(
+        `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(",")}`
+      ),
     [props.chatRoomID]
   );
+
   const chatRoomQuery = useQuery<ChatRoomMax>(fetchChatRoom, {
     enabled: props.chatRoomID !== undefined,
     refetchInterval: 2,
@@ -37,13 +39,22 @@ export const ChatArea = (props: ChatAreaProps) => {
   const chatRoom = chatRoomQuery.data;
 
   const fetchUserList = useCallback(
-    () => getChatRoomUsers(props.chatRoomID, USER_ATTRIBUTES),
+    () =>
+      ajaxClient.get(
+        `/chats/${props.chatRoomID}/users?fields=${USER_ATTRIBUTES.join(",")}`
+      ),
     [props.chatRoomID]
   );
   const userListQuery = useQuery<User[]>(fetchUserList, {
     enabled: chatRoom !== undefined,
   });
   const members = userListQuery.data;
+
+  const sendMessage = useCallback(
+    (message: MessageType) =>
+      ajaxClient.post(`/chats/${props.chatRoomID}/message`, { message }),
+    [props.chatRoomID]
+  );
 
   const messageMutation = useMutation(sendMessage);
   const { mutate: messageMutate } = messageMutation;
@@ -52,15 +63,15 @@ export const ChatArea = (props: ChatAreaProps) => {
     (text: string) => {
       if (currentUser !== undefined) {
         const newMsg: MessageType = {
-          id: Date.now() + "",
+          id: "",
           timestamp: Date.now(),
           text,
-          sender_id: currentUser.id,
+          senderId: currentUser.id,
         };
-        messageMutate(props.chatRoomID, newMsg);
+        messageMutate(newMsg);
       }
     },
-    [currentUser, messageMutate, props.chatRoomID]
+    [currentUser, messageMutate]
   );
 
   let roomName: string = "Please Select a ChatRoom",
@@ -68,11 +79,16 @@ export const ChatArea = (props: ChatAreaProps) => {
     memberList: User[] = [],
     messageList: MessageType[] = [];
   if (chatRoom !== undefined) {
-    roomName = chatRoom.name;
+    roomName = chatRoom.id;
     roomImage = chatRoom.roomImage;
     if (members !== undefined) {
       messageList = chatRoom.messages;
       memberList = members;
+      if (chatRoom.type === "dm") {
+        const otherMember =
+          members[0].id !== currentUser?.id ? members[0] : members[1];
+        roomName = otherMember.name;
+      }
     }
   }
 

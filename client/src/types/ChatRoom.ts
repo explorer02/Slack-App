@@ -4,13 +4,13 @@ import { User } from "./User";
 export type ChatRoomMin = {
   id: string;
   name: string;
-  type: "duel" | "channel";
+  type: "dm" | "channel";
 };
 
 export type ChatRoomMax = {
   id: string;
   name: string;
-  type: "duel" | "channel";
+  type: "dm" | "channel";
   roomImage: string;
   members: User[];
   messages: Message[];

@@ -1,5 +1,4 @@
-import React, { FormEvent } from "react";
-import { validateLogin } from "../../server/auth";
+import React, { FormEvent, useCallback } from "react";
 
 import { GrLogin } from "react-icons/gr";
 import { AiOutlineMail } from "react-icons/ai";
@@ -11,6 +10,7 @@ import { useInput } from "./useInput";
 import { useMutation } from "../../hooks/useMutation";
 
 import "./login.css";
+import { ajaxClient } from "../../ajaxClient";
 
 type LoginProps = {
   onLoginComplete: (id: string) => void;
@@ -20,9 +20,14 @@ export const Login = (props: LoginProps) => {
   const [id, handleIDChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
 
-  let loginStatus = "";
+  const validateLogin = useCallback(
+    () => ajaxClient.post("/auth/login", { id, password }),
+    [id, password]
+  );
+
   const mutation = useMutation<boolean>(validateLogin);
 
+  let loginStatus = "";
   if (mutation.status === "loading") loginStatus = "Verifying credentials...";
   else if (mutation.status === "error") {
     loginStatus = mutation.error?.message || "Some error occured...";

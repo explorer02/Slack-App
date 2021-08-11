@@ -1,0 +1,38 @@
+{
+  "id": "sam_malcolm",
+  "members": ["sam", "malcolm"],
+  "type": "duel",
+  "roomImage": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
+  "messages": [
+    {
+      "id": "sam_malcolm_1axsd3",
+      "timestamp": 1627886611434,
+      "text": "Heya Sam!!",
+      "senderId": "malcolm"
+    },
+    {
+      "id": "sam_malcolm_38nd83b",
+      "timestamp": 1627886611534,
+      "text": "Hola! Sup?",
+      "senderId": "sam"
+    },
+    {
+      "id": "sam_malcolm_b3b3b3",
+      "timestamp": 1627886611634,
+      "text": "Sky's up. Bye!",
+      "senderId": "malcolm"
+    },
+    {
+      "id": "sam_malcolm_38hd8dn",
+      "timestamp": 1627886611734,
+      "text": "Bye!",
+      "senderId": "sam"
+    },
+    {
+      "timestamp": 1628593623441,
+      "text": "Hello Sammy!",
+      "senderId": "malcolm",
+      "id": "sam_malcolm_1628593623441"
+    }
+  ]
+}

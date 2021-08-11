@@ -1,0 +1,26 @@
+{
+  "john": {
+    "password": "1234",
+    "name": "John Reese",
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
+    "chatRooms": ["john_malcolm", "john_sam", "channel1"]
+  },
+  "sam": {
+    "password": "1234",
+    "name": "Sam Groves",
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
+    "chatRooms": ["sam_malcolm", "john_sam", "channel1"]
+  },
+  "malcolm": {
+    "password": "12345678",
+    "name": "Malcolm Wilkerson",
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
+    "chatRooms": ["john_malcolm", "sam_malcolm"]
+  },
+  "jack": {
+    "password": "1234",
+    "name": "Jack",
+    "profilePicture": "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg",
+    "chatRooms": ["channel1"]
+  }
+}

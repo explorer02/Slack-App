@@ -3,7 +3,7 @@ const { DEFAULT_AVATAR } = require("../constants");
 const { ChatController } = require("../controller/chat-controller");
 const { UserController } = require("../controller/user-controller");
 
-const { extractFields, checkFields, sendResponse } = require("./utils");
+const { extractFields, checkFields, responseType } = require("./utils");
 
 const router = express.Router();
 const userController = new UserController();
@@ -11,7 +11,7 @@ const chatController = new ChatController();
 
 //all user route
 router.get("/", (req, res) => {
-  sendResponse.unauthorized(res);
+  responseType.sendUnauthorized(res);
 });
 
 //get user by id
@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
   const user = await userController.getUser(id);
 
   if (!user) {
-    return sendResponse.resourceNotFound(res, "User");
+    return responseType.sendResourceNotFound(res, "User");
   }
 
   let fields = req.query.fields;
@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
 
   const result = extractFields(user, fields);
   delete result.password;
-  sendResponse.success(res, undefined, { result });
+  responseType.sendSuccess(res, undefined, { result });
 });
 
 //create user
@@ -41,21 +41,21 @@ router.post("/", async (req, res) => {
   const isUserValid = user && checkFields(user, requiredFields);
 
   if (!isUserValid) {
-    return sendResponse.badRequest(res, "Please provide all the fields!!", {
+    return responseType.sendBadRequest(res, "Please provide all the fields!!", {
       requiredFields,
     });
   }
 
   const exists = await userController.getUser(user.id);
-  if (exists) return sendResponse.badRequest(res, "User already exists!!");
+  if (exists) return responseType.sendBadRequest(res, "User already exists!!");
 
   const result = await userController.saveUser({
     ...user,
-    chat_rooms: [],
+    chatRooms: [],
     profilePicture: user.profilePicture || DEFAULT_AVATAR,
   });
-  if (result) return res.json({ message: "Success!!" });
-  sendResponse.unknownError(res);
+  if (result) return responseType.sendSuccess(res);
+  responseType.sendUnknownError(res);
 });
 
 //get all chats of a user
@@ -64,11 +64,11 @@ router.get("/:id/chats", async (req, res) => {
   const user = await userController.getUser(id);
 
   if (!user) {
-    return sendResponse.resourceNotFound(res, "User");
+    return responseType.sendResourceNotFound(res, "User");
   }
 
   const chatRooms = await Promise.all(
-    user.chat_rooms.map((cid) => chatController.getChatRoom(cid))
+    user.chatRooms.map((cid) => chatController.getChatRoom(cid))
   );
 
   let fields = req.query.fields;
@@ -79,7 +79,7 @@ router.get("/:id/chats", async (req, res) => {
 
   const result = chatRooms.map((room) => extractFields(room, fields));
 
-  sendResponse.success(res, undefined, { result });
+  responseType.sendSuccess(res, undefined, { result });
 });
 
 exports.userRoutes = router;

@@ -8,25 +8,25 @@
       "id": "john_malcolm_1axsd3",
       "timestamp": 1627886611434,
       "text": "Hello John!!",
-      "sender_id": "malcolm"
+      "senderId": "malcolm"
     },
     {
       "id": "john_malcolm_38nd83b",
       "timestamp": 1627886611534,
       "text": "Hey Malcolm! How you doing?",
-      "sender_id": "john"
+      "senderId": "john"
     },
     {
       "id": "john_malcolm_b3b3b3",
       "timestamp": 1627886611634,
       "text": "I'm great. Thanks for asking!",
-      "sender_id": "malcolm"
+      "senderId": "malcolm"
     },
     {
       "id": "john_malcolm_38hd8dn",
       "timestamp": 1627886611734,
       "text": "Great! See ya later",
-      "sender_id": "john"
+      "senderId": "john"
     }
   ]
 }

@@ -1,2 +1,5 @@
 server/node_modules
 client/node_modules
+server/yarn.lock
+server/storage/chat_rooms
+server/storage/Users.json

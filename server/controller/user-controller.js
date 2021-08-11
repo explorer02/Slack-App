@@ -11,21 +11,22 @@ exports.UserController = class {
   async getUser(id) {
     const data = await this.getAllUsers();
     if (!data) return;
-    const user = data.find((user) => user.id === id);
-    return user;
+    if (id in data) return { ...data[id], id };
   }
   async saveUser(user) {
     const data = await this.getAllUsers();
     if (!data) return false;
-    data.push(user);
+    const newUser = { ...user };
+    data[user.id] = newUser;
+    delete newUser.id;
     return await this.writeAllUsers(data);
   }
   async addChatRoom(members, room_id) {
     const data = await this.getAllUsers();
     if (!data) return false;
     members.forEach((member) => {
-      const user = data.find((user) => user.id === member);
-      user.chat_rooms.push(room_id);
+      const user = data[member];
+      if (user) user.chat_rooms.push(room_id);
     });
     return await this.writeAllUsers(data);
   }

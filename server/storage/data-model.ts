@@ -2,7 +2,7 @@ type Message = {
   id: string;
   timestamp: number;
   text: string;
-  sender_id: string;
+  senderId: string;
 };
 
 type User = {
@@ -10,13 +10,13 @@ type User = {
   password: string;
   name: string;
   profilePicture: string;
-  chat_rooms: string[];
+  chatRooms: string[];
 };
 
 type ChatRoom = {
   id: string;
   name?: string;
-  type: "duel" | "channel";
+  type: "dm" | "channel";
   members: string[];
   messages: Message[];
   roomImage: string;

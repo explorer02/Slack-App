@@ -2,6 +2,7 @@ const express = require("express");
 const { userRoutes } = require("./routes/users");
 const { chatRoutes } = require("./routes/chats");
 const { authRoutes } = require("./routes/auth");
+const { sendResponse } = require("./routes/utils");
 const app = express();
 const port = 3000;
 
@@ -11,7 +12,7 @@ app.use("/chats", chatRoutes);
 app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  sendResponse.unauthorized(res);
 });
 
 app.listen(port, () => {

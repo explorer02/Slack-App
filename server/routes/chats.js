@@ -2,7 +2,7 @@ const express = require("express");
 const { DEFAULT_AVATAR } = require("../constants");
 const { ChatController } = require("../controller/chat-controller");
 const { UserController } = require("../controller/user-controller");
-const { extractFields, checkFields, sendResponse } = require("./utils");
+const { extractFields, checkFields, responseType } = require("./utils");
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ const chatController = new ChatController();
 const userController = new UserController();
 
 router.get("/", (req, res) => {
-  sendResponse.unauthorized(res);
+  responseType.sendUnauthorized(res);
 });
 //get chatroom by id
 router.get("/:id", async (req, res) => {
@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
   const chatRoom = await chatController.getChatRoom(id);
 
   if (!chatRoom) {
-    return sendResponse.resourceNotFound(res, "ChatRoom");
+    return responseType.sendResourceNotFound(res, "ChatRoom");
   }
 
   let fields = req.query.fields;
@@ -29,23 +29,23 @@ router.get("/:id", async (req, res) => {
 
   const result = extractFields(chatRoom, fields);
 
-  sendResponse.success(res, undefined, { result });
+  responseType.sendSuccess(res, undefined, { result });
 });
 
 //create new chatroom
 router.post("/", async (req, res) => {
   const requiredFields = ["id", "members", "type"];
-  const chatRoom = req.body.chat_room;
+  const chatRoom = req.body.chatRoom;
   const isValidChatRoom = chatRoom && checkFields(chatRoom, requiredFields);
 
   if (!isValidChatRoom) {
-    sendResponse.badRequest(res, "Please provide all the fields!!", {
+    responseType.sendBadRequest(res, "Please provide all the fields!!", {
       requiredFields,
     });
   }
-
   const exists = await chatController.getChatRoom(chatRoom.id);
-  if (exists) return sendResponse.badRequest(res, "ChatRoom already exists!!");
+  if (exists)
+    return responseType.sendBadRequest(res, "ChatRoom already exists!!");
 
   const result = await chatController.createChatRoom({
     ...chatRoom,
@@ -54,38 +54,39 @@ router.post("/", async (req, res) => {
   });
   if (result) {
     userController.addChatRoom(chatRoom.members, result.id);
-    return sendResponse.success(res, undefined, { result });
+    return responseType.sendSuccess(res, undefined, { result });
   }
-  return sendResponse.unknownError(res);
+  return responseType.sendUnknownError(res);
 });
 
 //add message to chatroom
 router.post("/:id/message", async (req, res) => {
-  const requiredFields = ["timestamp", "text", "sender_id"];
+  const requiredFields = ["timestamp", "text", "senderId"];
   const roomId = req.params.id;
   const message = req.body.message;
   if (!message) {
-    return sendResponse.badRequest(res, "Error!!  message object is missing");
+    return responseType.sendBadRequest(
+      res,
+      "Error!!  message object is missing"
+    );
   }
   const isMessageValid = message && checkFields(message, requiredFields);
   if (!isMessageValid) {
-    return sendResponse.badRequest(
-      res,
-      "Please provide all the fields!!",
-      requiredFields
-    );
+    return responseType.sendBadRequest(res, "Please provide all the fields!!", {
+      requiredFields,
+    });
   }
   const isValidChatRoom = await chatController.getChatRoom(roomId);
   if (!isValidChatRoom) {
-    return sendResponse.resourceNotFound(res, "ChatRoom");
+    return responseType.sendResourceNotFound(res, "ChatRoom");
   }
 
   const result = await chatController.addMessage(roomId, {
     ...message,
     id: roomId + "_" + message.timestamp,
   });
-  if (result) return sendResponse.success(res);
-  return sendResponse.unknownError(res);
+  if (result) return responseType.sendSuccess(res);
+  return responseType.sendUnknownError(res);
 });
 
 //get all users of a chat room
@@ -94,7 +95,7 @@ router.get("/:id/users", async (req, res) => {
   const chatRoom = await chatController.getChatRoom(id);
 
   if (!chatRoom) {
-    return sendResponse.resourceNotFound(res, "ChatRoom");
+    return responseType.sendResourceNotFound(res, "ChatRoom");
   }
 
   const users = await Promise.all(
@@ -109,7 +110,7 @@ router.get("/:id/users", async (req, res) => {
 
   const result = users.map((user) => extractFields(user, fields));
 
-  sendResponse.success(res, undefined, { result });
+  responseType.sendSuccess(res, undefined, { result });
 });
 
 exports.chatRoutes = router;

@@ -9,11 +9,12 @@ type InputProps = {
   value: string;
   onChange: (ev: ChangeEvent<HTMLInputElement>) => void;
   minLength?: number;
+  style?: { [key: string]: string };
 };
 
 export const Input = (props: InputProps) => {
   return (
-    <div className="styled-input-container">
+    <div className="styled-input-container" style={{ ...props.style }}>
       {props.Icon}
       <input
         className="styled-input"

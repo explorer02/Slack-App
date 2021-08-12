@@ -8,6 +8,7 @@ import "./room-list.css";
 
 type RoomListProps = {
   onClickListItem: (id: string) => void;
+  onClickNewChatRoom: () => void;
   rooms: ChatRoomMin[];
   selectedRoomId: string;
 };
@@ -18,6 +19,8 @@ export const RoomList = (props: RoomListProps) => {
 
   return (
     <div className="room-list">
+      <p onClick={props.onClickNewChatRoom} className="room-list-new-chat">New Chat</p>
+
       <RoomSubList
         roomEntries={channels}
         title="Channels"

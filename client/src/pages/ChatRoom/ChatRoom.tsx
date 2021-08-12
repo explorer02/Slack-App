@@ -10,10 +10,24 @@ import { useQuery } from "../../hooks/useQuery";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "./chat-room.css";
 import { ajaxClient } from "../../ajaxClient";
+import Modal from "../../components/Modal/Modal";
+import NewChatRoomForm from "../../components/NewChatRoomForm/NewChatRoomForm";
 
 export const ChatRoom = () => {
   const [chatRoomID, setChatRoomID] = useState<string | undefined>();
+  // const [refreshCount, setRefreshCount] = useState(-1);
   const currentUser = useContext(CurrentUserContext);
+  const [showNewChatRoomDialog, setShowNewChatRoomDialog] =
+    useState<boolean>(false);
+
+  const handleNewChatRoomDialogToggle = useCallback(
+    () => setShowNewChatRoomDialog((c) => !c),
+    []
+  );
+  const handleNewChatRoomCreate = useCallback(() => {
+    // setRefreshCount((rc) => rc + 1);
+    setShowNewChatRoomDialog(false);
+  }, []);
 
   const fetchChatRoomsMin = useCallback(
     () =>
@@ -25,26 +39,40 @@ export const ChatRoom = () => {
     [currentUser?.id]
   );
 
-  const chatRoomListMinQuery = useQuery<ChatRoomMin[]>(fetchChatRoomsMin);
+  const chatRoomListMinQuery = useQuery<ChatRoomMin[]>(fetchChatRoomsMin, {
+    enabled: true,
+    refetchInterval: 2,
+    // refresh: refreshCount,
+  });
+
   const chatRoomListMin = chatRoomListMinQuery.data;
 
   const loadChatRoom = useCallback((id: string) => {
     setChatRoomID(id);
   }, []);
 
-  if (
-    chatRoomListMinQuery.status === "loading" ||
-    chatRoomListMinQuery.status === "idle"
-  )
-    return <p>Loading....</p>;
+  // if (
+  //   chatRoomListMinQuery.status === "loading" ||
+  //   chatRoomListMinQuery.status === "idle"
+  // )
+  //   return <p>Loading....</p>;
   if (chatRoomListMinQuery.status === "error")
     return (
       <p>{chatRoomListMinQuery.error?.message || "Some Error Occured...."}</p>
     );
   return (
     <div className="chat-room">
+      {showNewChatRoomDialog && (
+        <Modal>
+          <NewChatRoomForm
+            onCancel={handleNewChatRoomDialogToggle}
+            onSuccess={handleNewChatRoomCreate}
+          />
+        </Modal>
+      )}
       <RoomList
         onClickListItem={loadChatRoom}
+        onClickNewChatRoom={handleNewChatRoomDialogToggle}
         rooms={chatRoomListMin || []}
         selectedRoomId={chatRoomID || ""}
       />

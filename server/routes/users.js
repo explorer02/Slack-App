@@ -68,7 +68,16 @@ router.get("/:id/chats", async (req, res) => {
   }
 
   const chatRooms = await Promise.all(
-    user.chatRooms.map((cid) => chatController.getChatRoom(cid))
+    user.chatRooms.map(async (cid) => {
+      const room = await chatController.getChatRoom(cid);
+      if (room.type === "channel") room.name = room.id;
+      else {
+        const otherUserId =
+          room.members[0] === id ? room.members[1] : room.members[0];
+        room.name = (await userController.getUser(otherUserId)).name;
+      }
+      return room;
+    })
   );
 
   let fields = req.query.fields;

@@ -17,6 +17,7 @@ import { Select, SelectType } from "./Select/Select";
 import { useNewChatRoom } from "./useNewChatRoom";
 
 const users: SelectType = {
+  "": "Select",
   jack: "Jack",
   john: "John Reese",
   malcolm: "Malcolm Wilkerson",

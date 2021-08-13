@@ -21,3 +21,8 @@ export const Button = (props: ButtonProps) => {
     </button>
   );
 };
+
+Button.defaultProps = {
+  onClick: () => {},
+  disabled: false,
+};

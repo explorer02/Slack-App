@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
   const isValidChatRoom = chatRoom && checkFields(chatRoom, requiredFields);
 
   if (!isValidChatRoom) {
-    responseType.sendBadRequest(res, "Please provide all the fields!!", {
+    return responseType.sendBadRequest(res, "Please provide all the fields!!", {
       requiredFields,
     });
   }

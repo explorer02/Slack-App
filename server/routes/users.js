@@ -10,8 +10,20 @@ const userController = new UserController();
 const chatController = new ChatController();
 
 //all user route
-router.get("/", (req, res) => {
-  responseType.sendUnauthorized(res);
+router.get("/", async (req, res) => {
+  const users = await userController.getAllUsers();
+  if (!users) return responseType.sendResourceNotFound(res, "Users");
+
+  let fields = req.query.fields;
+
+  if (fields === undefined) {
+    fields = ["id"];
+  } else
+    fields = fields
+      .split(",")
+      .filter((f) => f !== "password" && f !== "chatRooms");
+  const result = users.map((u) => extractFields(u, fields));
+  responseType.sendSuccess(res, undefined, { result });
 });
 
 //get user by id

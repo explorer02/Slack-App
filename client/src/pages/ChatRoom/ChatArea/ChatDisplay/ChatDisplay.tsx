@@ -1,30 +1,36 @@
 import React from "react";
-import { MessageType } from "../../../../types/MessageType";
-import { UserType } from "../../../../types/UserType";
-import "./chat-display.css";
+
 import { Message } from "./Message/Message";
+
+import { Message as MessageType } from "../../../../types/Message";
+import { User } from "../../../../types/User";
+
+import "./chat-display.css";
+import { DEFAULT_AVATAR } from "../../../../constants";
 
 type ChatDisplayProps = {
   messages: MessageType[];
-  members: UserType[];
+  members: User[];
 };
-const findUser = (userList: UserType[], id: String) => {
+const findUser = (userList: User[], id: String) => {
   return (
-    userList.find((user) => user && user.id === id) || { id: "", name: "" }
+    userList.find((user) => user && user.id === id) || {
+      id: "12345",
+      name: "UNKNOWN_USER",
+      profilePicture: DEFAULT_AVATAR,
+    }
   );
 };
-const ChatDisplay = (props: ChatDisplayProps) => {
+export const ChatDisplay = (props: ChatDisplayProps) => {
   return (
     <div className="chat-display">
       {props.messages.map((message) => (
         <Message
           key={message.id}
           message={message}
-          user={findUser(props.members, message.sender_id)}
+          user={findUser(props.members, message.senderId)}
         />
       ))}
     </div>
   );
 };
-
-export default ChatDisplay;

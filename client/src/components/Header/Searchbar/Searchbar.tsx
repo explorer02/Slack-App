@@ -1,12 +1,12 @@
-import "./searchbar.css";
 import { FaSearch } from "react-icons/fa";
-const Searchbar = () => {
+
+import "./searchbar.css";
+
+export const Searchbar = () => {
   return (
     <div className="searchbar">
       <FaSearch />
-      <input type="text" placeholder="Search"></input>
+      <input type="text" placeholder="Search" className="searchbar-input"></input>
     </div>
   );
 };
-
-export default Searchbar;

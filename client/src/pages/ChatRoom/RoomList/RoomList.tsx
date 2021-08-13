@@ -1,16 +1,21 @@
 import React from "react";
+
+import { RoomSubList } from "./RoomSubList/RoomSubList";
+
+import { ChatRoomMin } from "../../../types/ChatRoom";
+
 import "./room-list.css";
-import RoomSubList from "./RoomSubList/RoomSubList";
-import { Room } from "./RoomType";
 
 type RoomListProps = {
   onClickListItem: (id: string) => void;
-  rooms: Room[];
+  rooms: ChatRoomMin[];
   selectedRoomId: string;
 };
+
 export const RoomList = (props: RoomListProps) => {
-  const dms = props.rooms.filter((room) => room.type === "duel");
+  const dms = props.rooms.filter((room) => room.type === "dm");
   const channels = props.rooms.filter((room) => room.type === "channel");
+
   return (
     <div className="room-list">
       <RoomSubList

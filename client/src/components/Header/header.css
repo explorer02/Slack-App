@@ -1,6 +1,7 @@
 .header {
   background-color: white;
-  height: 70px;
+  height: var(--header-height);
+  min-height: var(--header-height);
 
   display: flex;
   justify-content: space-around;
@@ -21,7 +22,7 @@
   height: 45px;
   width: 45px;
 }
-.header-home > p {
+.header-home-title {
   font-size: x-large;
   font-weight: 700;
 }

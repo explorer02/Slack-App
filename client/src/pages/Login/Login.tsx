@@ -1,43 +1,55 @@
-import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
+import React, { FormEvent, useCallback } from "react";
+
 import { GrLogin } from "react-icons/gr";
 import { AiOutlineMail } from "react-icons/ai";
-import { StyledInput } from "./StyledInput/StyledInput";
+import { Input } from "./Input/Input";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { Button } from "../../components/Button/Button";
+
+import { useInput } from "./useInput";
+import { useMutation } from "../../hooks/useMutation";
+
 import "./login.css";
-import StyledButton from "./StyledButton/StyledButton";
-import { UserType } from "../../types/UserType";
+import { ajaxClient } from "../../ajaxClient";
 
 type LoginProps = {
-  onLoginComplete: (u: UserType) => void;
+  onLoginComplete: (id: string) => void;
 };
 
 export const Login = (props: LoginProps) => {
   const [id, handleIDChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
 
-  const [loginError, setLoginError] = useState<string>("");
+  const validateLogin = useCallback(
+    () => ajaxClient.post("/auth/login", { id, password }),
+    [id, password]
+  );
+
+  const mutation = useMutation<boolean>(validateLogin);
+
+  let loginStatus = "";
+  if (mutation.status === "loading") loginStatus = "Verifying credentials...";
+  else if (mutation.status === "error") {
+    loginStatus = mutation.error?.message || "Some error occured...";
+  } else if (mutation.status === "success") {
+    loginStatus = "Login validated...";
+    setTimeout(() => {
+      props.onLoginComplete(id);
+    }, 300);
+  }
 
   const handleLogin = (ev: FormEvent) => {
     ev.preventDefault();
-    if (password !== "1234") {
-      setLoginError("Error Logging in!!");
-      return;
-    }
-    props.onLoginComplete({
-      name: "Malcolm",
-      id: "malcolm",
-      phone: "+1 12341234",
-      email: "malcolm@abc.com",
-      lastOnline: 0,
-    });
+    mutation.mutate(id, password);
   };
+
   return (
     <div className="login-container">
       <div className="login-title">
         Log in <GrLogin />
       </div>
       <form className="login-form" onSubmit={handleLogin}>
-        <StyledInput
+        <Input
           type="text"
           placeholder="user id"
           Icon={<AiOutlineMail />}
@@ -45,7 +57,7 @@ export const Login = (props: LoginProps) => {
           onChange={handleIDChange}
           minLength={3}
         />
-        <StyledInput
+        <Input
           type="password"
           placeholder="password"
           Icon={<RiLockPasswordFill />}
@@ -53,20 +65,10 @@ export const Login = (props: LoginProps) => {
           onChange={handlePasswordChange}
           minLength={3}
         />
-        <StyledButton text="Log in" type="submit" />
-        <p className="login-error">{loginError}</p>
-        <StyledButton text="Create New Acount" type="button" />
+        <Button text="Log in" type="submit" />
+        <p className="login-status">{loginStatus}</p>
+        <Button text="Create New Acount" type="button" />
       </form>
     </div>
   );
 };
-
-function useInput(
-  initValue: string
-): [string, (ev: ChangeEvent<HTMLInputElement>) => void] {
-  const [state, setState] = useState(initValue);
-  const onChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
-    setState(ev.target.value);
-  }, []);
-  return [state, onChange];
-}

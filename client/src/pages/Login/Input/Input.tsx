@@ -1,8 +1,8 @@
 import { ChangeEvent } from "react";
 
-import "./styled-input.css";
+import "./input.css";
 
-type StyledInputProps = {
+type InputProps = {
   Icon?: JSX.Element;
   type: string;
   placeholder?: string;
@@ -11,11 +11,12 @@ type StyledInputProps = {
   minLength?: number;
 };
 
-export const StyledInput = (props: StyledInputProps) => {
+export const Input = (props: InputProps) => {
   return (
-    <div className="styled-input">
+    <div className="styled-input-container">
       {props.Icon}
       <input
+        className="styled-input"
         type={props.type}
         placeholder={props.placeholder}
         value={props.value}

@@ -1,21 +1,23 @@
 import React from "react";
-import "./header.css";
-import Searchbar from "./Searchbar/Searchbar";
+
+import { Searchbar } from "./Searchbar/Searchbar";
 import { FaUserCircle } from "react-icons/fa";
 
-type HeaderProps = { username: string };
+import "./header.css";
+
+type HeaderProps = { userName: string };
 
 export const Header = (props: HeaderProps) => {
   return (
     <div className="header">
       <div className="header-home">
         <div className="header-logo"></div>
-        <p>Slack</p>
+        <p className="header-home-title">Slack</p>
       </div>
       <Searchbar />
       <div className="header-profile">
         <FaUserCircle />
-        <p>{props.username}</p>
+        <p>{props.userName}</p>
       </div>
     </div>
   );

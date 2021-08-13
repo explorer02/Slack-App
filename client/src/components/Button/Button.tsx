@@ -1,13 +1,15 @@
 import { MouseEvent } from "react";
-import "./styled-button.css";
 
-type StyledButtonProps = {
+import "./button.css";
+
+type ButtonProps = {
   text: string;
   onClick?: (ev: MouseEvent<HTMLButtonElement>) => void;
   type: "button" | "submit" | "reset";
   disabled?: boolean;
 };
-const StyledButton = (props: StyledButtonProps) => {
+
+export const Button = (props: ButtonProps) => {
   return (
     <button
       onClick={props.onClick}
@@ -19,5 +21,3 @@ const StyledButton = (props: StyledButtonProps) => {
     </button>
   );
 };
-
-export default StyledButton;

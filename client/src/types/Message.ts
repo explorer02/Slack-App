@@ -1,6 +1,6 @@
-export type MessageType = {
+export type Message = {
   id: string;
   timestamp: number;
   text: string;
-  sender_id: string;
+  senderId: string;
 };

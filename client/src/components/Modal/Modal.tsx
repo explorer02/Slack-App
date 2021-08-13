@@ -7,11 +7,11 @@ type ModalProps = {
   children: JSX.Element;
 };
 
-const Modal = (props: ModalProps) => {
+export const Modal = (props: ModalProps) => {
   let portalRoot = document.querySelector("#portal-root");
   if (portalRoot === null) {
     portalRoot = document.createElement("div");
-    portalRoot.setAttribute("id", "root");
+    portalRoot.setAttribute("id", "portal-root");
     document.body.append(portalRoot);
   }
 
@@ -22,5 +22,3 @@ const Modal = (props: ModalProps) => {
     portalRoot
   );
 };
-
-export default Modal;

@@ -1,4 +1,6 @@
 import React from "react";
-import { CurrentUser } from "types/User";
+import { User } from "types/User";
 
-export const CurrentUserContext = React.createContext<CurrentUser>(undefined);
+export const CurrentUserContext = React.createContext<User | undefined>(
+  undefined
+);

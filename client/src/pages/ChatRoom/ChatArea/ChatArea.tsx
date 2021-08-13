@@ -4,18 +4,16 @@ import { ChatCompose } from "./ChatCompose/ChatCompose";
 import { ChatDisplay } from "./ChatDisplay/ChatDisplay";
 import { RoomTitle } from "./RoomTitle/RoomTitle";
 
-import { ChatRoomMax } from "../../../types/ChatRoom";
-
-import { CHATROOM_MAX_ATTRIBUTES, USER_ATTRIBUTES } from "../../../attributes";
-import { useQuery } from "../../../hooks/useQuery";
-import { User } from "../../../types/User";
-import { useMutation } from "../../../hooks/useMutation";
-import { CurrentUserContext } from "../../../contexts/CurrentUserContext";
-import { Message as MessageType } from "../../../types/Message";
-import { DEFAULT_AVATAR } from "../../../constants";
-
 import "./chat-area.css";
-import { ajaxClient } from "../../../ajaxClient";
+import { CurrentUserContext } from "contexts/CurrentUserContext";
+import { ChatRoomMax } from "types/ChatRoom";
+import { useQuery } from "hooks/useQuery";
+import { CHATROOM_MAX_ATTRIBUTES, USER_ATTRIBUTES } from "attributes";
+import { User } from "types/User";
+import { Message as MessageType } from "types/Message";
+import { ajaxClient } from "ajaxClient";
+import { useMutation } from "hooks/useMutation";
+import { DEFAULT_AVATAR } from "./../../../constants";
 
 type ChatAreaProps = {
   chatRoomID: string | undefined;
@@ -24,30 +22,21 @@ type ChatAreaProps = {
 export const ChatArea = (props: ChatAreaProps) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const fetchChatRoom = useCallback(
-    () =>
-      ajaxClient.get(
-        `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(",")}`
-      ),
-    [props.chatRoomID]
+  const chatRoomQuery = useQuery<ChatRoomMax>(
+    `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(",")}`,
+    {
+      enabled: props.chatRoomID !== undefined,
+      refetchInterval: 2,
+    }
   );
-
-  const chatRoomQuery = useQuery<ChatRoomMax>(fetchChatRoom, {
-    enabled: props.chatRoomID !== undefined,
-    refetchInterval: 2,
-  });
   const chatRoom = chatRoomQuery.data;
 
-  const fetchUserList = useCallback(
-    () =>
-      ajaxClient.get(
-        `/chats/${props.chatRoomID}/users?fields=${USER_ATTRIBUTES.join(",")}`
-      ),
-    [props.chatRoomID]
+  const userListQuery = useQuery<User[]>(
+    `/chats/${props.chatRoomID}/users?fields=${USER_ATTRIBUTES.join(",")}`,
+    {
+      enabled: chatRoom !== undefined,
+    }
   );
-  const userListQuery = useQuery<User[]>(fetchUserList, {
-    enabled: chatRoom !== undefined,
-  });
   const members = userListQuery.data;
 
   const sendMessage = useCallback(

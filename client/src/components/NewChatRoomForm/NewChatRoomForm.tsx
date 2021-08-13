@@ -9,7 +9,7 @@ import { ajaxClient } from "ajaxClient";
 import { Button } from "components/Button/Button";
 import { CurrentUserContext } from "contexts/CurrentUserContext";
 import { useMutation } from "hooks/useMutation";
-import { Input } from "pages/Login/Input/Input";
+import { Input } from "components/Input/Input";
 import { GrChatOption } from "react-icons/gr";
 import { delayTask } from "utils";
 import "./new-chatroom-form.css";

@@ -18,13 +18,16 @@ const findUser = (userList: User[], id: String) => {
 export const ChatDisplay = (props: ChatDisplayProps) => {
   return (
     <div className="chat-display">
-      {props.messages.map((message) => (
-        <Message
-          key={message.id}
-          message={message}
-          user={findUser(props.members, message.senderId)}
-        />
-      ))}
+      {props.messages
+        .slice()
+        .reverse()
+        .map((message) => (
+          <Message
+            key={message.id}
+            message={message}
+            user={findUser(props.members, message.senderId)}
+          />
+        ))}
     </div>
   );
 };

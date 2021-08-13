@@ -1,5 +1,5 @@
 import { Button } from "components/Button/Button";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { FormEvent, KeyboardEvent, useRef } from "react";
 
 import "./chat-compose.css";
 
@@ -9,16 +9,28 @@ type ChatComposeProps = {
 };
 
 export const ChatCompose = (props: ChatComposeProps) => {
-  const [text, setText] = useState("");
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleTextChange = (ev: ChangeEvent<HTMLTextAreaElement>) =>
-    setText(ev.target.value);
+  const sendMessage = () => {
+    let msg = inputRef.current?.value || "";
+    msg = msg.trim();
+    if (msg.length > 0) {
+      props.onMessageSend(msg);
+      if (inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.value = "";
+      }
+    }
+  };
 
   const handleSubmit = (ev: FormEvent) => {
     ev.preventDefault();
-    if (text.length > 0) {
-      props.onMessageSend(text);
-      setText("");
+    sendMessage();
+  };
+  const onKeyDown = (ev: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (ev.shiftKey && ev.key === "Enter") {
+      ev.preventDefault();
+      sendMessage();
     }
   };
 
@@ -29,8 +41,8 @@ export const ChatCompose = (props: ChatComposeProps) => {
           className="chat-compose-form-input"
           rows={3}
           placeholder="Message..."
-          value={text}
-          onChange={handleTextChange}
+          onKeyDown={onKeyDown}
+          ref={inputRef}
         ></textarea>
         <Button type="submit" text="Send" disabled={props.disabled} />
       </form>

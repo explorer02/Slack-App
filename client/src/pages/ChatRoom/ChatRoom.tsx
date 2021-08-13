@@ -1,17 +1,15 @@
 import React, { useState, useCallback, useContext } from "react";
 
+import "./chat-room.css";
+import { ajaxClient } from "ajaxClient";
+import { CurrentUserContext } from "contexts/CurrentUserContext";
+import { CHATROOM_MIN_ATTRIBUTES } from "attributes";
+import { ChatRoomMin } from "types/ChatRoom";
+import { useQuery } from "hooks/useQuery";
+import Modal from "components/Modal/Modal";
+import NewChatRoomForm from "components/NewChatRoomForm/NewChatRoomForm";
 import { RoomList } from "./RoomList/RoomList";
 import { ChatArea } from "./ChatArea/ChatArea";
-
-import { ChatRoomMin } from "../../types/ChatRoom";
-
-import { CHATROOM_MIN_ATTRIBUTES } from "../../attributes";
-import { useQuery } from "../../hooks/useQuery";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import "./chat-room.css";
-import { ajaxClient } from "../../ajaxClient";
-import Modal from "../../components/Modal/Modal";
-import NewChatRoomForm from "../../components/NewChatRoomForm/NewChatRoomForm";
 
 export const ChatRoom = () => {
   const [chatRoomID, setChatRoomID] = useState<string | undefined>();

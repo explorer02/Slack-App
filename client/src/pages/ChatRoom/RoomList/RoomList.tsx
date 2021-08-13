@@ -2,9 +2,8 @@ import React from "react";
 
 import { RoomSubList } from "./RoomSubList/RoomSubList";
 
-import { ChatRoomMin } from "../../../types/ChatRoom";
-
 import "./room-list.css";
+import { ChatRoomMin } from "types/ChatRoom";
 
 type RoomListProps = {
   onClickListItem: (id: string) => void;
@@ -19,7 +18,9 @@ export const RoomList = (props: RoomListProps) => {
 
   return (
     <div className="room-list">
-      <p onClick={props.onClickNewChatRoom} className="room-list-new-chat">New Chat</p>
+      <p onClick={props.onClickNewChatRoom} className="room-list-new-chat">
+        New Chat
+      </p>
 
       <RoomSubList
         roomEntries={channels}

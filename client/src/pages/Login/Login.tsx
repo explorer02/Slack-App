@@ -2,15 +2,13 @@ import React, { FormEvent, useCallback } from "react";
 
 import { GrLogin } from "react-icons/gr";
 import { AiOutlineMail } from "react-icons/ai";
-import { Input } from "./Input/Input";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { Button } from "../../components/Button/Button";
-
 import { useInput } from "./useInput";
-import { useMutation } from "../../hooks/useMutation";
-
 import "./login.css";
-import { ajaxClient } from "../../ajaxClient";
+import { Input } from "./Input/Input";
+import { ajaxClient } from "ajaxClient";
+import { useMutation } from "hooks/useMutation";
+import { Button } from "components/Button/Button";
 
 type LoginProps = {
   onLoginComplete: (id: string) => void;

@@ -5,13 +5,13 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { ajaxClient } from "ajaxClient";
+import { Button } from "components/Button/Button";
+import { CurrentUserContext } from "contexts/CurrentUserContext";
+import { useMutation } from "hooks/useMutation";
+import { Input } from "pages/Login/Input/Input";
 import { GrChatOption } from "react-icons/gr";
-import { ajaxClient } from "../../ajaxClient";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useMutation } from "../../hooks/useMutation";
-import { Input } from "../../pages/Login/Input/Input";
-import { delayTask } from "../../utils";
-import { Button } from "../Button/Button";
+import { delayTask } from "utils";
 import "./new-chatroom-form.css";
 import { Select, SelectType } from "./Select/Select";
 import { useNewChatRoom } from "./useNewChatRoom";

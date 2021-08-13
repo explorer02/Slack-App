@@ -1,5 +1,5 @@
+import { useInput } from "pages/Login/useInput";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useInput } from "../../pages/Login/useInput";
 import { SelectType } from "./Select/Select";
 import { useSelect } from "./Select/useSelect";
 

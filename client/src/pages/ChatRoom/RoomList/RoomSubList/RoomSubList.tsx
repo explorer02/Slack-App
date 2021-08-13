@@ -1,6 +1,5 @@
 import React, { MouseEvent, useCallback, useState } from "react";
-
-import { ChatRoomMin } from "../../../../types/ChatRoom";
+import { ChatRoomMin } from "types/ChatRoom";
 
 import "./room-sub-list.css";
 

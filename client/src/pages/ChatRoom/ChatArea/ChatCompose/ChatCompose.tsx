@@ -1,6 +1,5 @@
+import { Button } from "components/Button/Button";
 import React, { useState, ChangeEvent, FormEvent } from "react";
-
-import { Button } from "../../../../components/Button/Button";
 
 import "./chat-compose.css";
 

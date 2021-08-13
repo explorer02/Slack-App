@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { ajaxClient } from "ajaxClient";
@@ -15,14 +16,9 @@ import { delayTask } from "utils";
 import "./new-chatroom-form.css";
 import { Select, SelectType } from "./Select/Select";
 import { useNewChatRoom } from "./useNewChatRoom";
-
-const users: SelectType = {
-  "": "Select",
-  jack: "Jack",
-  john: "John Reese",
-  malcolm: "Malcolm Wilkerson",
-  sam: "Sam Groves",
-};
+import { useQuery } from "hooks/useQuery";
+import { User } from "types/User";
+import { USER_ATTRIBUTES } from "attributes";
 
 type NewChatRoomFormProps = {
   onSuccess: () => void;
@@ -30,6 +26,18 @@ type NewChatRoomFormProps = {
 };
 
 const NewChatRoomForm = (props: NewChatRoomFormProps) => {
+  const usersQuery = useQuery<User[]>(
+    `/users?fields=${USER_ATTRIBUTES.join(",")}`
+  );
+  const users: SelectType = useMemo(
+    () =>
+      (usersQuery.data || []).reduce((acc: SelectType, user) => {
+        acc[user.id] = user.name;
+        return acc;
+      }, {}),
+    [usersQuery.data]
+  );
+
   const chatRoomState = useNewChatRoom(users);
   const currentUser = useContext(CurrentUserContext);
 

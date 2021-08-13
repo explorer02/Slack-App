@@ -3,7 +3,7 @@ import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoLanguageSharp } from "react-icons/io5";
-import { useInput } from "../../hooks/useInput";
+import { useInput } from "../../components/Input/useInput";
 import "./login.css";
 import { Input } from "../../components/Input/Input";
 import { ajaxClient } from "ajaxClient";

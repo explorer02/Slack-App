@@ -10,8 +10,20 @@ const userController = new UserController();
 const chatController = new ChatController();
 
 //all user route
-router.get("/", (req, res) => {
-  responseType.sendUnauthorized(res);
+router.get("/", async (req, res) => {
+  const users = await userController.getAllUsers();
+  if (!users) return responseType.sendResourceNotFound(res, "Users");
+
+  let fields = req.query.fields;
+
+  if (fields === undefined) {
+    fields = ["id"];
+  } else
+    fields = fields
+      .split(",")
+      .filter((f) => f !== "password" && f !== "chatRooms");
+  const result = users.map((u) => extractFields(u, fields));
+  responseType.sendSuccess(res, undefined, { result });
 });
 
 //get user by id
@@ -68,7 +80,16 @@ router.get("/:id/chats", async (req, res) => {
   }
 
   const chatRooms = await Promise.all(
-    user.chatRooms.map((cid) => chatController.getChatRoom(cid))
+    user.chatRooms.map(async (cid) => {
+      const room = await chatController.getChatRoom(cid);
+      if (room.type === "channel") room.name = room.id;
+      else {
+        const otherUserId =
+          room.members[0] === id ? room.members[1] : room.members[0];
+        room.name = (await userController.getUser(otherUserId)).name;
+      }
+      return room;
+    })
   );
 
   let fields = req.query.fields;

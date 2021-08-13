@@ -26,7 +26,7 @@ exports.UserController = class {
     if (!data) return false;
     members.forEach((member) => {
       const user = data[member];
-      if (user) user.chat_rooms.push(room_id);
+      if (user) user.chatRooms.push(room_id);
     });
     return await this.writeAllUsers(data);
   }

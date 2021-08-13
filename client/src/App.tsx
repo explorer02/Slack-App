@@ -23,11 +23,11 @@ function App() {
   );
   const user = userQuery.data;
 
-  const handleLoginComplete = useCallback((id: string) => {
+  const handleAuthComplete = useCallback((id: string) => {
     setUid(id);
   }, []);
 
-  let page = <Login onLoginComplete={handleLoginComplete} />;
+  let page = <Login onAuthComplete={handleAuthComplete} />;
 
   if (user !== undefined) {
     page = <ChatRoom />;

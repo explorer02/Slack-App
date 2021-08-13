@@ -1,9 +1,9 @@
-import React, { FormEvent, useCallback } from "react";
+import React, { FormEvent, useCallback, useEffect } from "react";
 
 import { GrLogin } from "react-icons/gr";
 import { AiOutlineMail } from "react-icons/ai";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { useInput } from "./useInput";
+import { useInput } from "./Input/useInput";
 import "./login.css";
 import { Input } from "./Input/Input";
 import { ajaxClient } from "ajaxClient";
@@ -29,12 +29,16 @@ export const Login = (props: LoginProps) => {
   if (mutation.status === "loading") loginStatus = "Verifying credentials...";
   else if (mutation.status === "error") {
     loginStatus = mutation.error?.message || "Some error occured...";
-  } else if (mutation.status === "success") {
-    loginStatus = "Login validated...";
-    setTimeout(() => {
-      props.onLoginComplete(id);
-    }, 300);
-  }
+  } else if (mutation.status === "success") loginStatus = "Login validated...";
+
+  const { onLoginComplete } = props;
+  useEffect(() => {
+    if (mutation.status === "success") {
+      setTimeout(() => {
+        onLoginComplete(id);
+      }, 300);
+    }
+  }, [mutation.status, id, onLoginComplete]);
 
   const handleLogin = (ev: FormEvent) => {
     ev.preventDefault();

@@ -32,18 +32,16 @@ function App() {
     setUid(id);
   }, []);
 
-  let userName = "Profile";
   let page = <Login onLoginComplete={handleLoginComplete} />;
 
   if (user !== undefined) {
-    userName = user.name;
     page = <ChatRoom />;
   }
 
   return (
     <CurrentUserContext.Provider value={user}>
       <div className="App">
-        <Header userName={userName} />
+        <Header userName={user?.name} />
         {page}
       </div>
     </CurrentUserContext.Provider>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { RoomSubList } from "./RoomSubList/RoomSubList";
 
@@ -13,8 +13,14 @@ type RoomListProps = {
 };
 
 export const RoomList = (props: RoomListProps) => {
-  const dms = props.rooms.filter((room) => room.type === "dm");
-  const channels = props.rooms.filter((room) => room.type === "channel");
+  const dms = useMemo(
+    () => props.rooms.filter((room) => room.type === "dm"),
+    [props.rooms]
+  );
+  const channels = useMemo(
+    () => props.rooms.filter((room) => room.type === "channel"),
+    [props.rooms]
+  );
 
   return (
     <div className="room-list">
@@ -36,4 +42,11 @@ export const RoomList = (props: RoomListProps) => {
       />
     </div>
   );
+};
+
+RoomList.defaultProps = {
+  rooms: [],
+  onClickListItem: (id: string) => {},
+  onClickNewChatRoom: () => {},
+  selectedRoomId: "",
 };

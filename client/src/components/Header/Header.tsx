@@ -22,3 +22,7 @@ export const Header = (props: HeaderProps) => {
     </div>
   );
 };
+
+Header.defaultProps = {
+  userName: "Profile",
+};

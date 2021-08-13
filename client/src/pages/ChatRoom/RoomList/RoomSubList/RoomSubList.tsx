@@ -37,12 +37,11 @@ export const RoomSubList = (props: RoomSubListProps) => {
               onClick={handleClick}
               data-id={entry.id}
               key={entry.id}
-              className={
-                "room-sub-list-item " +
-                (props.selectedRoomId === entry.id
+              className={`room-sub-list-item ${
+                props.selectedRoomId === entry.id
                   ? "room-sub-list-item-selected"
-                  : "")
-              }
+                  : ""
+              }`}
             >
               {entry.name}
             </li>

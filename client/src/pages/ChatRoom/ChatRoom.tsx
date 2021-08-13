@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useContext } from "react";
-
 import "./chat-room.css";
 import { ajaxClient } from "ajaxClient";
 import { CurrentUserContext } from "contexts/CurrentUserContext";
@@ -13,7 +12,7 @@ import { ChatArea } from "./ChatArea/ChatArea";
 
 export const ChatRoom = () => {
   const [chatRoomID, setChatRoomID] = useState<string | undefined>();
-  // const [refreshCount, setRefreshCount] = useState(-1);
+
   const currentUser = useContext(CurrentUserContext);
   const [showNewChatRoomDialog, setShowNewChatRoomDialog] =
     useState<boolean>(false);
@@ -23,7 +22,6 @@ export const ChatRoom = () => {
     []
   );
   const handleNewChatRoomCreate = useCallback(() => {
-    // setRefreshCount((rc) => rc + 1);
     setShowNewChatRoomDialog(false);
   }, []);
 
@@ -40,7 +38,6 @@ export const ChatRoom = () => {
   const chatRoomListMinQuery = useQuery<ChatRoomMin[]>(fetchChatRoomsMin, {
     enabled: true,
     refetchInterval: 2,
-    // refresh: refreshCount,
   });
 
   const chatRoomListMin = chatRoomListMinQuery.data;
@@ -71,8 +68,8 @@ export const ChatRoom = () => {
       <RoomList
         onClickListItem={loadChatRoom}
         onClickNewChatRoom={handleNewChatRoomDialogToggle}
-        rooms={chatRoomListMin || []}
-        selectedRoomId={chatRoomID || ""}
+        rooms={chatRoomListMin}
+        selectedRoomId={chatRoomID}
       />
       <ChatArea chatRoomID={chatRoomID} />
     </div>

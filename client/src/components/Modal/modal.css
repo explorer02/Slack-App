@@ -15,6 +15,7 @@
   display: none;
 }
 .modal {
+  flex: none;
   height: 50%;
   width: 40%;
   background: white;
@@ -23,4 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.modal > * {
+  flex: none;
 }

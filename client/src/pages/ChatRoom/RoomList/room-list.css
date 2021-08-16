@@ -6,3 +6,6 @@
   flex-direction: column;
   font-size: large;
 }
+.room-list > * {
+  flex: none;
+}

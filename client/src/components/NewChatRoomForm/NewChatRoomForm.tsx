@@ -113,8 +113,8 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
 
   return (
     <div className="new-chatroom-form-container">
-      <div className="new-chatroom-form-title">
-        <GrChatOption />
+      <div>
+        <GrChatOption className="new-chatroom-form-title-icon" />
         New Chat Room
       </div>
       <Select

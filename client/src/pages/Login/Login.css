@@ -10,6 +10,9 @@
   align-items: center;
   gap: 40px;
 }
+.login-container > * {
+  flex: none;
+}
 .login-title {
   display: flex;
   align-items: center;
@@ -25,6 +28,9 @@
   justify-content: center;
   gap: 25px;
   font-size: x-large;
+}
+.login-form > * {
+  flex: none;
 }
 .login-status {
   color: var(--color-primary);

@@ -1,4 +1,5 @@
 .header {
+  flex: none;
   background-color: white;
   height: var(--header-height);
   min-height: var(--header-height);
@@ -9,6 +10,7 @@
 }
 
 .header-home {
+  flex: none;
   height: 100%;
 
   display: flex;
@@ -16,6 +18,7 @@
   gap: 10px;
 }
 .header-logo {
+  flex: none;
   background: url(../../assets/slack.svg);
   background-repeat: no-repeat;
 
@@ -23,14 +26,15 @@
   width: 45px;
 }
 .header-home-title {
+  flex: initial;
   font-size: x-large;
   font-weight: 700;
 }
 
 .header-profile {
+  flex: initial;
   display: flex;
   align-items: center;
   gap: 10px;
-
   font-size: x-large;
 }

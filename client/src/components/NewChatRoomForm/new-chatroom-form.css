@@ -10,15 +10,23 @@
 
   font-size: x-large;
 }
-.new-chatroom-form-title {
-  display: flex;
-  gap: 10px;
+.new-chatroom-form-container > * {
+  flex: none;
+}
+
+.new-chatroom-form-title-icon {
+  margin-right: 10px;
 }
 
 .new-chatroom-form-controls {
   display: flex;
+  justify-content: center;
   gap: 10px;
 }
+.new-chatroom-form-controls > * {
+  flex: none;
+}
+
 .new-chatroom-form-participants {
   text-align: center;
   font-size: large;

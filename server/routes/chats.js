@@ -31,15 +31,22 @@ router.get("/:id", async (req, res) => {
 
   //pagination
   if (fields.includes("messages")) {
-    //get page number and count per page
-    const page = parseInt(req.query.page) || 0;
-    const cpp = parseInt(req.query.cpp) || 10;
-
-    if (page * cpp > result.messages.length) result.messages = [];
-    else {
-      const endIndex = result.messages.length - page * cpp;
-      const startIndex = endIndex - cpp;
-      result.messages = result.messages.slice(startIndex, endIndex);
+    const lastId = req.query.lastId;
+    const count = req.query.count || 10;
+    if (lastId === undefined) {
+      result.messages = result.messages.slice(-count);
+    } else {
+      const index = result.messages.findIndex(
+        (messages) => messages.id === lastId
+      );
+      if (index !== -1) {
+        result.messages = result.messages.slice(
+          Math.max(index - count, 0),
+          index
+        );
+      } else {
+        result.messages = result.messages.slice(-count);
+      }
     }
   }
   responseType.sendSuccess(res, undefined, { result });

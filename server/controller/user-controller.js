@@ -20,9 +20,7 @@ exports.UserController = class {
   async saveUser(user) {
     const data = await this.readAllUsers();
     if (!data) return false;
-    const newUser = { ...user };
-    data[user.id] = newUser;
-    // delete newUser.id;
+    data[user.id] = { ...user };
     return await this.writeAllUsers(data);
   }
   async addChatRoom(members, room_id) {

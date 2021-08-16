@@ -29,6 +29,26 @@ router.get("/:id", async (req, res) => {
 
   const result = extractFields(chatRoom, fields);
 
+  //pagination
+  if (fields.includes("messages")) {
+    const lastId = req.query.lastId;
+    const count = req.query.count || 10;
+    if (lastId === undefined) {
+      result.messages = result.messages.slice(-count);
+    } else {
+      const index = result.messages.findIndex(
+        (messages) => messages.id === lastId
+      );
+      if (index !== -1) {
+        result.messages = result.messages.slice(
+          Math.max(index - count, 0),
+          index
+        );
+      } else {
+        result.messages = result.messages.slice(-count);
+      }
+    }
+  }
   responseType.sendSuccess(res, undefined, { result });
 });
 

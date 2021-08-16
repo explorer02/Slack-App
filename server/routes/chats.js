@@ -29,6 +29,19 @@ router.get("/:id", async (req, res) => {
 
   const result = extractFields(chatRoom, fields);
 
+  //pagination
+  if (fields.includes("messages")) {
+    //get page number and count per page
+    const page = parseInt(req.query.page) || 0;
+    const cpp = parseInt(req.query.cpp) || 10;
+
+    if (page * cpp > result.messages.length) result.messages = [];
+    else {
+      const endIndex = result.messages.length - page * cpp;
+      const startIndex = endIndex - cpp;
+      result.messages = result.messages.slice(startIndex, endIndex);
+    }
+  }
   responseType.sendSuccess(res, undefined, { result });
 });
 

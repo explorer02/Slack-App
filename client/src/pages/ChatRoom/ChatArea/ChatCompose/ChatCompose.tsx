@@ -12,8 +12,7 @@ export const ChatCompose = (props: ChatComposeProps) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const sendMessage = () => {
-    let msg = inputRef.current?.value || "";
-    msg = msg.trim();
+    const msg = inputRef.current?.value.trim() || "";
     if (msg.length > 0) {
       props.onMessageSend(msg);
       if (inputRef.current) {

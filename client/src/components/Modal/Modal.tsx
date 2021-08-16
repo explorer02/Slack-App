@@ -5,6 +5,7 @@ import "./modal.css";
 
 type ModalProps = {
   children: JSX.Element;
+  isVisible: boolean;
 };
 
 export const Modal = (props: ModalProps) => {
@@ -16,8 +17,8 @@ export const Modal = (props: ModalProps) => {
   }
 
   return ReactDOM.createPortal(
-    <div className="backdrop">
-      <div className="modal">{props.children}</div>
+    <div className={`backdrop ` + (props.isVisible ? "" : "backdrop-hide")}>
+      {props.isVisible && <div className="modal">{props.children}</div>}
     </div>,
     portalRoot
   );

@@ -1,13 +1,14 @@
-import { useInput } from "components/Input/useInput";
+import { useInput } from "hooks/useInput";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SelectType } from "./Select/Select";
-import { useSelect } from "./Select/useSelect";
+
+const rooms: SelectType = { dm: "Direct Message", channel: "Channel" };
 
 export const useNewChatRoom = (users: SelectType) => {
   const [members, setMembers] = useState<string[]>([]);
 
-  const [currentMember, handleMemberChange] = useSelect("");
-  const [currentRoom, handleRoomChange] = useSelect("dm");
+  const [currentMember, handleMemberChange] = useInput("");
+  const [currentRoom, handleRoomChange] = useInput("dm");
   const [roomName, handleRoomNameChange] = useInput("");
 
   useEffect(() => {
@@ -26,8 +27,6 @@ export const useNewChatRoom = (users: SelectType) => {
     () => members.map((id) => users[id]),
     [members, users]
   );
-
-  const rooms: SelectType = { dm: "Direct Message", channel: "Channel" };
 
   return {
     currentMember,

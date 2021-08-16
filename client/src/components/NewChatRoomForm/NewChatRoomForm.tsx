@@ -2,7 +2,6 @@ import React, {
   MouseEvent,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -29,14 +28,13 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
   const usersQuery = useQuery<User[]>(
     `/users?fields=${USER_ATTRIBUTES.join(",")}`
   );
-  const users: SelectType = useMemo(
-    () =>
-      (usersQuery.data || []).reduce((acc: SelectType, user) => {
-        acc[user.id] = user.name;
-        return acc;
-      }, {}),
-    [usersQuery.data]
-  );
+  const users: SelectType = useMemo(() => {
+    const users: SelectType = { "": "Select" };
+    (usersQuery.data || []).forEach((user) => {
+      users[user.id] = user.name;
+    });
+    return users;
+  }, [usersQuery.data]);
 
   const chatRoomState = useNewChatRoom(users);
   const currentUser = useContext(CurrentUserContext);
@@ -60,10 +58,19 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
     []
   );
 
-  const mutation = useMutation(createChatRoom);
+  const successHandler = useCallback(() => {
+    delayTask(props.onSuccess, 0.3);
+  }, [props.onSuccess]);
 
-  const handleOk = () => {
-    mutation.reset();
+  const {
+    status: mutationStatus,
+    reset: mutationReset,
+    mutate,
+    error: mutationError,
+  } = useMutation(createChatRoom, { onSuccess: successHandler });
+
+  const handleOk = useCallback(() => {
+    mutationReset();
     if (
       chatRoomState.currentRoom === "channel" &&
       chatRoomState.roomName.trim().length === 0
@@ -84,23 +91,25 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
       members = members.concat(currentUser.id).sort();
       const type = chatRoomState.currentRoom;
       const id = type === "dm" ? members.join("_") : chatRoomState.roomName;
-      mutation.mutate(id, members, type);
+      mutate(id, members, type);
       setValidationMessage("");
     }
-  };
+  }, [
+    chatRoomState.currentRoom,
+    chatRoomState.roomName,
+    chatRoomState.members,
+    currentUser,
+    mutate,
+    mutationReset,
+  ]);
 
   let status = "";
-  if (mutation.status === "loading") status = "Loading...";
-  else if (mutation.status === "error")
-    status = mutation.error?.message || "Some Error Ocurred!!";
-  else if (mutation.status === "success") {
+  if (mutationStatus === "loading") status = "Loading...";
+  else if (mutationStatus === "error")
+    status = mutationError?.message || "Some Error Ocurred!!";
+  else if (mutationStatus === "success") {
     status = "ChatRoom created successfully!!";
   }
-
-  const { onSuccess } = props;
-  useEffect(() => {
-    if (mutation.status === "success") delayTask(onSuccess, 0.3);
-  }, [mutation.status, onSuccess]);
 
   return (
     <div className="new-chatroom-form-container">

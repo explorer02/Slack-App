@@ -22,7 +22,7 @@ export const Message = (props: MessageProps) => {
     <div className="message-container">
       <img
         src={props.user.profilePicture}
-        alt=""
+        alt={props.user.name}
         className="message-profile-pic"
       />
       <div>

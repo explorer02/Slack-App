@@ -15,14 +15,12 @@ import { USER_ATTRIBUTES } from "attributes";
 function App() {
   const [uid, setUid] = useState<string | undefined>(undefined);
 
-  const userQuery = useQuery<User>(
+  const {data:user} = useQuery<User>(
     `/users/${uid}?fields=${USER_ATTRIBUTES.join(",")}`,
     {
       enabled: uid !== undefined,
     }
   );
-  const user = userQuery.data;
-
   const handleAuthComplete = useCallback((id: string) => {
     setUid(id);
   }, []);

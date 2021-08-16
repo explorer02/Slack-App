@@ -1,15 +1,16 @@
-import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useState } from "react";
 
 import { AiOutlineMail } from "react-icons/ai";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoLanguageSharp } from "react-icons/io5";
-import { useInput } from "../../components/Input/useInput";
+
 import "./login.css";
 import { Input } from "../../components/Input/Input";
 import { ajaxClient } from "ajaxClient";
 import { useMutation } from "hooks/useMutation";
 import { Button } from "components/Button/Button";
 import { delayTask } from "utils";
+import { useInput } from "hooks/useInput";
 
 type LoginProps = {
   onAuthComplete: (id: string) => void;
@@ -52,7 +53,14 @@ export const Login = (props: LoginProps) => {
     [mode]
   );
 
-  const mutation = useMutation<boolean>(validateAuth);
+  const { onAuthComplete } = props;
+  const successHandler = useCallback(() => {
+    delayTask(() => onAuthComplete(id), 0.3);
+  }, [onAuthComplete, id]);
+
+  const mutation = useMutation<boolean>(validateAuth, {
+    onSuccess: successHandler,
+  });
 
   let status = "";
   if (mutation.status === "loading") status = options[mode].loadingMessage;
@@ -60,13 +68,6 @@ export const Login = (props: LoginProps) => {
     status = mutation.error?.message || "Some error occured...";
   } else if (mutation.status === "success")
     status = options[mode].successMessage;
-
-  const { onAuthComplete } = props;
-  useEffect(() => {
-    if (mutation.status === "success") {
-      delayTask(() => onAuthComplete(id), 0.3);
-    }
-  }, [mutation.status, id, onAuthComplete]);
 
   const handleLogin = (ev: FormEvent) => {
     ev.preventDefault();

@@ -8,7 +8,17 @@ type MutationState<T> = {
   error: Error | undefined;
 };
 
-export function useMutation<T>(callback: MutationFunction) {
+type MutationOptions = {
+  onSuccess?: () => void;
+  onFailure?: () => void;
+};
+export function useMutation<T>(
+  callback: MutationFunction,
+  { onSuccess, onFailure }: MutationOptions = {
+    onSuccess: () => {},
+    onFailure: () => {},
+  }
+) {
   const [state, setState] = useState<MutationState<T>>({
     status: "idle",
     data: undefined,
@@ -21,13 +31,15 @@ export function useMutation<T>(callback: MutationFunction) {
       callback(...args)
         .then((res) => {
           setState({ status: "success", data: res, error: undefined });
+          onSuccess?.();
         })
         .catch((err) => {
           setState({ status: "error", data: undefined, error: err });
+          onFailure?.();
         })
         .finally(() => {});
     },
-    [callback]
+    [callback, onSuccess, onFailure]
   );
   const reset = useCallback(() => {
     setState({ status: "idle", data: undefined, error: undefined });

@@ -47,14 +47,13 @@ export const ChatRoom = () => {
     );
   return (
     <div className="chat-room">
-      {showNewChatRoomDialog && (
-        <Modal>
-          <NewChatRoomForm
-            onCancel={handleNewChatRoomDialogToggle}
-            onSuccess={handleNewChatRoomCreate}
-          />
-        </Modal>
-      )}
+      <Modal isVisible={showNewChatRoomDialog}>
+        <NewChatRoomForm
+          onCancel={handleNewChatRoomDialogToggle}
+          onSuccess={handleNewChatRoomCreate}
+        />
+      </Modal>
+
       <RoomList
         onClickListItem={loadChatRoom}
         onClickNewChatRoom={handleNewChatRoomDialogToggle}

@@ -14,7 +14,7 @@ type InputProps = {
 
 export const Input = (props: InputProps) => {
   return (
-    <div className="styled-input-container" style={{ ...props.style }}>
+    <div className="styled-input-container" style={props.style}>
       {props.Icon}
       <input
         className="styled-input"

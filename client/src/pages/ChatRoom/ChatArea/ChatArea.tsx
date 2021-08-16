@@ -22,22 +22,19 @@ type ChatAreaProps = {
 export const ChatArea = (props: ChatAreaProps) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const chatRoomQuery = useQuery<ChatRoomMax>(
+  const { data: chatRoom } = useQuery<ChatRoomMax>(
     `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(",")}`,
     {
       enabled: props.chatRoomID !== undefined,
       refetchInterval: 2,
     }
   );
-  const chatRoom = chatRoomQuery.data;
-
-  const userListQuery = useQuery<User[]>(
+  const { data: members } = useQuery<User[]>(
     `/chats/${props.chatRoomID}/users?fields=${USER_ATTRIBUTES.join(",")}`,
     {
       enabled: chatRoom !== undefined,
     }
   );
-  const members = userListQuery.data;
 
   const sendMessage = useCallback(
     (message: MessageType) =>

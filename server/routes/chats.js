@@ -1,5 +1,13 @@
 const express = require("express");
-const { DEFAULT_AVATAR } = require("../constants");
+const {
+  DEFAULT_AVATAR,
+  CHATROOM_MAIN_ATTRIBUTES,
+  CHATROOM_DM,
+  CHATROOM_CHANNEL,
+  DEFAULT_CHATROOM_NAME,
+  USER_FIELDS,
+  DEFAULT_MESSAGE_COUNT,
+} = require("./constants");
 const { ChatController } = require("../controller/chat-controller");
 const { UserController } = require("../controller/user-controller");
 const { extractFields, checkFields, responseType } = require("./utils");
@@ -15,38 +23,47 @@ router.get("/", (req, res) => {
 //get chatroom by id
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
+  let uid = req.query.id;
   const chatRoom = await chatController.getChatRoom(id);
+  const user = await userController.getUser(uid);
 
   if (!chatRoom) {
     return responseType.sendResourceNotFound(res, "ChatRoom");
   }
+  if (!user || !chatRoom.members.includes(uid)) {
+    return responseType.sendUnauthorized(res);
+  }
 
-  let fields = req.query.fields;
+  let name = "";
+  if (chatRoom.type === CHATROOM_CHANNEL) {
+    name = chatRoom.id;
+  } else {
+    const otherUserId =
+      chatRoom.members[0] === uid ? chatRoom.members[1] : chatRoom.members[0];
+    const otherUser = await userController.getUser(otherUserId);
+    if (!otherUser) name = DEFAULT_CHATROOM_NAME;
+    else name = otherUser.name;
+  }
+  chatRoom.name = name;
 
-  if (fields === undefined) {
-    fields = ["id"];
-  } else fields = fields.split(",");
-
-  const result = extractFields(chatRoom, fields);
+  const result = extractFields(chatRoom, CHATROOM_MAIN_ATTRIBUTES);
 
   //pagination
-  if (fields.includes("messages")) {
-    const lastId = req.query.lastId;
-    const count = req.query.count || 10;
-    if (lastId === undefined) {
-      result.messages = result.messages.slice(-count);
-    } else {
-      const index = result.messages.findIndex(
-        (messages) => messages.id === lastId
+  const lastId = req.query.lastId;
+  const count = req.query.count || DEFAULT_MESSAGE_COUNT;
+  if (lastId === undefined) {
+    result.messages = result.messages.slice(-count);
+  } else {
+    const index = result.messages.findIndex(
+      (messages) => messages.id === lastId
+    );
+    if (index !== -1) {
+      result.messages = result.messages.slice(
+        Math.max(index - count, 0),
+        index
       );
-      if (index !== -1) {
-        result.messages = result.messages.slice(
-          Math.max(index - count, 0),
-          index
-        );
-      } else {
-        result.messages = result.messages.slice(-count);
-      }
+    } else {
+      result.messages = result.messages.slice(-count);
     }
   }
   responseType.sendSuccess(res, undefined, { result });
@@ -91,14 +108,18 @@ router.post("/:id/message", async (req, res) => {
     );
   }
   const isMessageValid = message && checkFields(message, requiredFields);
+
   if (!isMessageValid) {
     return responseType.sendBadRequest(res, "Please provide all the fields!!", {
       requiredFields,
     });
   }
-  const isValidChatRoom = await chatController.getChatRoom(roomId);
-  if (!isValidChatRoom) {
+  const chatRoom = await chatController.getChatRoom(roomId);
+  if (!chatRoom) {
     return responseType.sendResourceNotFound(res, "ChatRoom");
+  }
+  if (!chatRoom.members.includes(message.senderId)) {
+    return responseType.sendUnauthorized(res);
   }
 
   const result = await chatController.addMessage(roomId, {
@@ -122,13 +143,7 @@ router.get("/:id/users", async (req, res) => {
     chatRoom.members.map((uid) => userController.getUser(uid))
   );
 
-  let fields = req.query.fields;
-
-  if (fields === undefined) {
-    fields = ["id"];
-  } else fields = fields.split(",");
-
-  const result = users.map((user) => extractFields(user, fields));
+  const result = users.map((user) => extractFields(user, USER_FIELDS));
 
   responseType.sendSuccess(res, undefined, { result });
 });

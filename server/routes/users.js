@@ -1,7 +1,11 @@
 const express = require("express");
-const { DEFAULT_AVATAR } = require("../constants");
 const { ChatController } = require("../controller/chat-controller");
 const { UserController } = require("../controller/user-controller");
+const {
+  USER_FIELDS,
+  DEFAULT_AVATAR,
+  CHATROOM_SIDEBAR_FIELDS,
+} = require("./constants");
 
 const { extractFields, checkFields, responseType } = require("./utils");
 
@@ -13,16 +17,7 @@ const chatController = new ChatController();
 router.get("/", async (req, res) => {
   const users = await userController.getAllUsers();
   if (!users) return responseType.sendResourceNotFound(res, "Users");
-
-  let fields = req.query.fields;
-
-  if (fields === undefined) {
-    fields = ["id"];
-  } else
-    fields = fields
-      .split(",")
-      .filter((f) => f !== "password" && f !== "chatRooms");
-  const result = users.map((u) => extractFields(u, fields));
+  const result = users.map((u) => extractFields(u, USER_FIELDS));
   responseType.sendSuccess(res, undefined, { result });
 });
 
@@ -35,14 +30,7 @@ router.get("/:id", async (req, res) => {
     return responseType.sendResourceNotFound(res, "User");
   }
 
-  let fields = req.query.fields;
-
-  if (fields === undefined) {
-    fields = ["id"];
-  } else fields = fields.split(",");
-
-  const result = extractFields(user, fields);
-  delete result.password;
+  const result = extractFields(user, USER_FIELDS);
   responseType.sendSuccess(res, undefined, { result });
 });
 
@@ -88,19 +76,10 @@ router.get("/:id/chats", async (req, res) => {
           room.members[0] === id ? room.members[1] : room.members[0];
         room.name = (await userController.getUser(otherUserId)).name;
       }
-      return room;
+      return extractFields(room, CHATROOM_SIDEBAR_FIELDS);
     })
   );
-
-  let fields = req.query.fields;
-
-  if (fields === undefined) {
-    fields = ["id"];
-  } else fields = fields.split(",");
-
-  const result = chatRooms.map((room) => extractFields(room, fields));
-
-  responseType.sendSuccess(res, undefined, { result });
+  responseType.sendSuccess(res, undefined, { result: chatRooms });
 });
 
 exports.userRoutes = router;

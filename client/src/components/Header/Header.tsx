@@ -14,15 +14,19 @@ export const Header = (props: HeaderProps) => {
         <div className="header-logo"></div>
         <p className="header-home-title">Slack</p>
       </div>
-      <Searchbar />
-      <div className="header-profile">
-        <FaUserCircle />
-        <p>{props.userName}</p>
-      </div>
+      {props.userName && (
+        <>
+          <Searchbar />
+          <div className="header-profile">
+            <FaUserCircle />
+            <p>{props.userName}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
 Header.defaultProps = {
-  userName: "Profile",
+  userName: undefined,
 };

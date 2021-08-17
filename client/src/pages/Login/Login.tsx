@@ -39,7 +39,7 @@ const options = {
   },
 };
 
-export const Login = (props: LoginProps) => {
+export const Login = (props: LoginProps): JSX.Element => {
   const [id, handleIDChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
   const [name, handleNameChange] = useInput("");
@@ -47,7 +47,7 @@ export const Login = (props: LoginProps) => {
     LOGIN_MODE
   );
 
-  const switchMode = () =>
+  const switchMode = (): void =>
     setMode((m) => (m === LOGIN_MODE ? SIGNUP_MODE : LOGIN_MODE));
 
   const validateAuth = useCallback(
@@ -76,7 +76,7 @@ export const Login = (props: LoginProps) => {
   } else if (mutation.status === "success")
     status = options[mode].successMessage;
 
-  const handleLogin = (ev: FormEvent) => {
+  const handleLogin = (ev: FormEvent): void => {
     ev.preventDefault();
     mutation.mutate(id, password, name);
   };

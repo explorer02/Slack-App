@@ -9,7 +9,7 @@ import { RoomList } from "./RoomList/RoomList";
 import { ChatArea } from "./ChatArea/ChatArea";
 import { ChatRoomSidebar, CHATROOM_SIDEBAR_ATTRIBUTES } from "./ChatRoomType";
 
-export const ChatRoom = () => {
+export const ChatRoom = (): JSX.Element => {
   const [chatRoomID, setChatRoomID] = useState<string | undefined>();
 
   const currentUser = useContext(CurrentUserContext);

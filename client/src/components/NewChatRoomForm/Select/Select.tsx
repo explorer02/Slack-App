@@ -8,7 +8,7 @@ type SelectProps = {
   selected: string;
   onChange?: (ev: ChangeEvent<HTMLSelectElement>) => void;
 };
-export const Select = (props: SelectProps) => {
+export const Select = (props: SelectProps): JSX.Element => {
   return (
     <select
       className="styled-select"

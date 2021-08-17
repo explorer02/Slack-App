@@ -9,15 +9,14 @@ type MessageProps = {
   message: MessageType;
   user: User;
 };
-const getDateFromMillis = (timestamp: number) => {
+const getDateFromMillis = (timestamp: number): string => {
   return new Intl.DateTimeFormat("en-US", {
     hour: "2-digit",
     minute: "2-digit",
   }).format(timestamp);
 };
 
-export const Message = (props: MessageProps) => {
-  if (props.user === undefined) return null;
+export const Message = (props: MessageProps): JSX.Element | null => {
   return (
     <div className="message-container">
       <img

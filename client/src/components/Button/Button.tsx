@@ -11,7 +11,7 @@ type ButtonProps = {
   selected?: boolean;
 };
 
-export const Button = (props: ButtonProps) => {
+export const Button = (props: ButtonProps):JSX.Element => {
   return (
     <button
       onClick={props.onClick}

@@ -17,7 +17,7 @@ type QueryState<T> = {
 export function useQuery<T>(
   url: string,
   options: QueryOptions<T> = { enabled: true, refetchInterval: -1 }
-) {
+): QueryState<T> {
   const [state, setState] = useState<QueryState<T>>({
     status: "idle",
     data: undefined,

@@ -1,6 +1,6 @@
 import { ROOM_CHANNEL, ROOM_DM } from "constant";
 import { useInput } from "hooks/useInput";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { SelectType } from "./Select/Select";
 
 const rooms: SelectType = {
@@ -8,7 +8,20 @@ const rooms: SelectType = {
   [ROOM_CHANNEL.id]: ROOM_CHANNEL.name,
 };
 
-export const useNewChatRoom = (users: SelectType) => {
+type UseMembersReturnType = {
+  currentMember: string;
+  members: string[];
+  currentRoom: string;
+  rooms: SelectType;
+  roomName: string;
+  handleRoomNameChange: (ev: ChangeEvent<HTMLInputElement>) => void;
+  removeMember: (id: string) => void;
+  memberNames: string[];
+  handleMemberChange: (ev: ChangeEvent<HTMLSelectElement>) => void;
+  handleRoomChange: (ev: ChangeEvent<HTMLSelectElement>) => void;
+};
+
+export const useNewChatRoom = (users: SelectType): UseMembersReturnType => {
   const [members, setMembers] = useState<string[]>([]);
 
   const [currentMember, handleMemberChange] = useInput("");

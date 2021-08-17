@@ -11,7 +11,7 @@ import { CurrentUserContext } from "./contexts/CurrentUserContext";
 
 import { User, USER_ATTRIBUTES } from "types/User";
 
-function App() {
+function App(): JSX.Element {
   const [uid, setUid] = useState<string | undefined>(undefined);
 
   const { data: user } = useQuery<User>(
@@ -20,7 +20,7 @@ function App() {
       enabled: uid !== undefined,
     }
   );
-  const handleAuthComplete = useCallback((id: string) => {
+  const handleAuthComplete = useCallback((id: string): void => {
     setUid(id);
   }, []);
 

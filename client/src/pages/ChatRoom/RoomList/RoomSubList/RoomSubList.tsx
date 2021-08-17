@@ -14,12 +14,12 @@ type RoomSubListProps = {
 const downArrow = "▼";
 const rightArrow = "►";
 
-export const RoomSubList = (props: RoomSubListProps) => {
+export const RoomSubList = (props: RoomSubListProps): JSX.Element => {
   const [showList, setShowList] = useState(true);
 
   const handleToggleList = useCallback(() => setShowList((c) => !c), []);
 
-  const handleClick = (ev: MouseEvent<HTMLLIElement>) => {
+  const handleClick = (ev: MouseEvent<HTMLLIElement>): void => {
     if (ev?.currentTarget?.dataset?.id !== undefined)
       props.onClickListItem(ev.currentTarget.dataset.id);
   };

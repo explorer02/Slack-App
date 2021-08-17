@@ -7,7 +7,7 @@ import "./header.css";
 
 type HeaderProps = { userName: string };
 
-export const Header = (props: HeaderProps) => {
+export const Header = (props: HeaderProps): JSX.Element => {
   return (
     <div className="header">
       <div className="header-home">

@@ -9,7 +9,13 @@ export const DEFAULT_USER: User = {
   profilePicture: DEFAULT_AVATAR,
 };
 
-export const ROOM_DM = { id: "dm", name: "Direct Message" };
-export const ROOM_CHANNEL = { id: "channel", name: "Channel" };
+export const ROOM_DM: { id: "dm"; name: string } = {
+  id: "dm",
+  name: "Direct Message",
+};
+export const ROOM_CHANNEL: { id: "channel"; name: string } = {
+  id: "channel",
+  name: "Channel",
+};
 
 export const VALIDATION_UNKNOWN_ERROR = "Unknown Error occured...";

@@ -12,13 +12,19 @@ type MutationOptions = {
   onSuccess?: () => void;
   onFailure?: () => void;
 };
+
+type UseMutationReturnType<T> = MutationState<T> & {
+  mutate: (...args: any[]) => void;
+  reset: () => void;
+};
+
 export function useMutation<T>(
   callback: MutationFunction,
   { onSuccess, onFailure }: MutationOptions = {
     onSuccess: () => {},
     onFailure: () => {},
   }
-) {
+): UseMutationReturnType<T> {
   const [state, setState] = useState<MutationState<T>>({
     status: "idle",
     data: undefined,

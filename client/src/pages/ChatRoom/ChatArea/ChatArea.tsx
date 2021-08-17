@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 
 import { ChatCompose } from "./ChatCompose/ChatCompose";
 import { ChatDisplay } from "./ChatDisplay/ChatDisplay";
@@ -20,7 +20,7 @@ type ChatAreaProps = {
 
 const MESSAGE_COUNT = 15;
 
-export const ChatArea = (props: ChatAreaProps) => {
+export const ChatArea = (props: ChatAreaProps): JSX.Element => {
   const currentUser = useContext(CurrentUserContext);
 
   const [allMessages, setAllMessages] = useState<MessageType[]>([]);
@@ -51,10 +51,6 @@ export const ChatArea = (props: ChatAreaProps) => {
   );
 
   const [isAtTop, setIsAtTop] = useState<boolean>(false);
-
-  useEffect(() => {
-    console.log(isAtTop);
-  }, [isAtTop]);
 
   const handleReachingTop = useCallback(() => {
     setIsAtTop(true);

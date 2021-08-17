@@ -7,7 +7,7 @@ type RoomTitleProps = {
   roomImage: string;
 };
 
-export const RoomTitle = (props: RoomTitleProps) => {
+export const RoomTitle = (props: RoomTitleProps): JSX.Element => {
   return (
     <div className="room-title">
       <img

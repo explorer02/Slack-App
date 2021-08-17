@@ -12,7 +12,7 @@ type InputProps = {
   style?: { [key: string]: string };
 };
 
-export const Input = (props: InputProps) => {
+export const Input = (props: InputProps): JSX.Element => {
   return (
     <div className="styled-input-container" style={props.style}>
       {props.Icon}

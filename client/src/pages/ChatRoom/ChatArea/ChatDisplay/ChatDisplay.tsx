@@ -13,10 +13,10 @@ type ChatDisplayProps = {
   members: User[];
   onReachingTop: () => void;
 };
-const findUser = (userList: User[], id: String) => {
+const findUser = (userList: User[], id: String): User => {
   return userList.find((user) => user && user.id === id) || DEFAULT_USER;
 };
-export const ChatDisplay = (props: ChatDisplayProps) => {
+export const ChatDisplay = (props: ChatDisplayProps): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
 
   const { onReachingTop, messages } = props;
@@ -24,11 +24,10 @@ export const ChatDisplay = (props: ChatDisplayProps) => {
     const div = ref.current;
     if (!div) return;
     let signalled = false;
-    const scrollEvent = () => {
+    const scrollEvent = (): void => {
       const pixelFromTop = div.clientHeight - div.scrollHeight - div.scrollTop;
       if (pixelFromTop > -20 && !signalled) {
         onReachingTop();
-        console.log(pixelFromTop, signalled);
         signalled = true;
       }
     };

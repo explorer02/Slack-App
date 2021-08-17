@@ -32,7 +32,7 @@ type NewChatRoomFormProps = {
   onCancel: () => void;
 };
 
-const NewChatRoomForm = (props: NewChatRoomFormProps) => {
+const NewChatRoomForm = (props: NewChatRoomFormProps): JSX.Element => {
   const usersQuery = useQuery<User[]>(
     `/users?fields=${USER_ATTRIBUTES.join(",")}`
   );
@@ -47,7 +47,7 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
   const chatRoomState = useNewChatRoom(users);
   const currentUser = useContext(CurrentUserContext);
 
-  const handleMemberRemove = (ev: MouseEvent<HTMLSpanElement>) => {
+  const handleMemberRemove = (ev: MouseEvent<HTMLSpanElement>): void => {
     const id = (ev.target as HTMLSpanElement).dataset.id;
     chatRoomState.removeMember(id || "");
   };
@@ -55,7 +55,7 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
   const [validationMessage, setValidationMessage] = useState<string>("");
 
   const createChatRoom = useCallback(
-    (id: string, members: string[], type: string) =>
+    (id: string, members: string[], type: string): Promise<any> =>
       ajaxClient.post("/chats", {
         chatRoom: {
           id,

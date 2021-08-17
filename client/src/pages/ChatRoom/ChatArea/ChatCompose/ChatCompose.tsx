@@ -8,10 +8,10 @@ type ChatComposeProps = {
   disabled: boolean;
 };
 
-export const ChatCompose = (props: ChatComposeProps) => {
+export const ChatCompose = (props: ChatComposeProps): JSX.Element => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const sendMessage = () => {
+  const sendMessage = (): void => {
     const msg = inputRef.current?.value.trim() || "";
     if (msg.length > 0) {
       props.onMessageSend(msg);
@@ -22,11 +22,11 @@ export const ChatCompose = (props: ChatComposeProps) => {
     }
   };
 
-  const handleSubmit = (ev: FormEvent) => {
+  const handleSubmit = (ev: FormEvent):void => {
     ev.preventDefault();
     sendMessage();
   };
-  const onKeyDown = (ev: KeyboardEvent<HTMLTextAreaElement>) => {
+  const onKeyDown = (ev: KeyboardEvent<HTMLTextAreaElement>):void => {
     if (ev.shiftKey && ev.key === "Enter") {
       ev.preventDefault();
       sendMessage();

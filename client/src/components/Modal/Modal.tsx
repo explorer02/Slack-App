@@ -8,7 +8,7 @@ type ModalProps = {
   isVisible: boolean;
 };
 
-export const Modal = (props: ModalProps) => {
+export const Modal = (props: ModalProps): JSX.Element => {
   let portalRoot = document.querySelector("#portal-root");
   if (portalRoot === null) {
     portalRoot = document.createElement("div");

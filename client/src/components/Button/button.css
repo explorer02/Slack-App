@@ -1,4 +1,5 @@
 .styled-button {
+  flex: initial;
   padding: 5px 10px;
   width: 100%;
   border-radius: var(--border-radius);

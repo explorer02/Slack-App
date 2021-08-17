@@ -123,7 +123,7 @@ const NewChatRoomForm = (props: NewChatRoomFormProps): JSX.Element => {
 
   return (
     <div className="new-chatroom-form-container">
-      <div>
+      <div className="new-chatroom-form-title">
         <GrChatOption className="new-chatroom-form-title-icon" />
         New Chat Room
       </div>

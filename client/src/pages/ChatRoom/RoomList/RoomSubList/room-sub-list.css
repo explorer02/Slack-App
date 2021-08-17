@@ -1,3 +1,6 @@
+.room-sub-list-container {
+  flex: none;
+}
 .room-sub-list-title {
   margin-bottom: 10px;
   cursor: pointer;

@@ -10,10 +10,8 @@
   align-items: center;
   gap: 40px;
 }
-.login-container > * {
-  flex: none;
-}
 .login-title {
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,15 +20,13 @@
   color: var(--color-primary);
 }
 .login-form {
+  flex: none;
   width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 25px;
   font-size: x-large;
-}
-.login-form > * {
-  flex: none;
 }
 .login-status {
   color: var(--color-primary);

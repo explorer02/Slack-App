@@ -25,6 +25,3 @@
   justify-content: center;
   align-items: center;
 }
-.modal > * {
-  flex: none;
-}

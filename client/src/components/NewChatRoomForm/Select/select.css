@@ -1,6 +1,6 @@
 .styled-select {
+  flex: none;
   width: fit-content;
-  border: none;
   color: var(--color-primary);
   border-radius: 10px;
   border: 1px solid var(--color-border);

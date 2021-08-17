@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import { Message } from "./Message/Message";
 
@@ -11,13 +11,36 @@ import { DEFAULT_USER } from "./../../../../constants";
 type ChatDisplayProps = {
   messages: MessageType[];
   members: User[];
+  onReachingTop: () => void;
 };
 const findUser = (userList: User[], id: String) => {
   return userList.find((user) => user && user.id === id) || DEFAULT_USER;
 };
 export const ChatDisplay = (props: ChatDisplayProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const { onReachingTop, messages } = props;
+  useEffect(() => {
+    const div = ref.current;
+    // console.log(div?.clientHeight, div?.scrollHeight, div?.scrollTop);
+
+    if (!div) return;
+    let signalled = false;
+    const scrollEvent = () => {
+      const pixelFromTop = div.clientHeight - div.scrollHeight - div.scrollTop;
+      if (pixelFromTop > -20 && !signalled) {
+        onReachingTop();
+        console.log(pixelFromTop, signalled);
+        signalled = true;
+      }
+    };
+    div.addEventListener("scroll", scrollEvent);
+    return () => {
+      div.removeEventListener("scroll", scrollEvent);
+    };
+  }, [onReachingTop, messages.length]);
   return (
-    <div className="chat-display">
+    <div className="chat-display" ref={ref}>
       {props.messages
         .slice()
         .reverse()

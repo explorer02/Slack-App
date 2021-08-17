@@ -37,10 +37,6 @@ export const ChatRoom = () => {
 
   const chatRoomListMin = chatRoomListMinQuery.data;
 
-  const loadChatRoom = useCallback((id: string) => {
-    setChatRoomID(id);
-  }, []);
-
   if (chatRoomListMinQuery.status === "error")
     return (
       <p>{chatRoomListMinQuery.error?.message || "Some Error Occured...."}</p>
@@ -55,12 +51,12 @@ export const ChatRoom = () => {
       </Modal>
 
       <RoomList
-        onClickListItem={loadChatRoom}
+        onClickListItem={setChatRoomID}
         onClickNewChatRoom={handleNewChatRoomDialogToggle}
         rooms={chatRoomListMin}
         selectedRoomId={chatRoomID}
       />
-      <ChatArea chatRoomID={chatRoomID} />
+      <ChatArea chatRoomID={chatRoomID} key={chatRoomID} />
     </div>
   );
 };

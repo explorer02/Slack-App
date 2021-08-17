@@ -2,9 +2,11 @@ import { ajaxClient } from "ajaxClient";
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
 
-type QueryOptions = {
+type QueryOptions<T> = {
   enabled?: boolean;
   refetchInterval?: number;
+  onSuccess?: (data: T) => void;
+  onFailure?: () => void;
 };
 type QueryState<T> = {
   status: "idle" | "loading" | "error" | "success";
@@ -14,7 +16,7 @@ type QueryState<T> = {
 
 export function useQuery<T>(
   url: string,
-  options: QueryOptions = { enabled: true, refetchInterval: -1 }
+  options: QueryOptions<T> = { enabled: true, refetchInterval: -1 }
 ) {
   const [state, setState] = useState<QueryState<T>>({
     status: "idle",
@@ -22,17 +24,20 @@ export function useQuery<T>(
     error: undefined,
   });
 
+  const { onSuccess, onFailure } = options;
   const fetchQuery = useCallback(() => {
     setState((s) => ({ ...s, status: "loading" }));
     ajaxClient
       .get<T>(url)
       .then((res) => {
         setState({ status: "success", data: res, error: undefined });
+        onSuccess?.(res);
       })
       .catch((err) => {
         setState({ status: "error", data: undefined, error: err });
+        onFailure?.();
       });
-  }, [url]);
+  }, [url, onSuccess, onFailure]);
 
   useEffect(() => {
     if (options.enabled === true) {

@@ -1,12 +1,12 @@
 import { Button } from "components/Button/Button";
+import { ChatRoomSidebar } from "pages/ChatRoom/ChatRoomType";
 import React, { MouseEvent, useCallback, useState } from "react";
-import { ChatRoomMin } from "types/ChatRoom";
 
 import "./room-sub-list.css";
 
 type RoomSubListProps = {
   title: string;
-  roomEntries: ChatRoomMin[];
+  roomEntries: ChatRoomSidebar[];
   onClickListItem: (id: string) => void;
   selectedRoomId: string;
 };

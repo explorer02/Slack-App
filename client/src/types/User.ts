@@ -3,3 +3,4 @@ export type User = {
   name: string;
   profilePicture: string;
 };
+export const USER_ATTRIBUTES = ["id", "name", "profilePicture"];

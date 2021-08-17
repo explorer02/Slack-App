@@ -2,13 +2,12 @@ import React, { useState, useCallback, useContext } from "react";
 import "./chat-room.css";
 
 import { CurrentUserContext } from "contexts/CurrentUserContext";
-import { CHATROOM_MIN_ATTRIBUTES } from "attributes";
-import { ChatRoomMin } from "types/ChatRoom";
 import { useQuery } from "hooks/useQuery";
 import { Modal } from "components/Modal/Modal";
 import NewChatRoomForm from "components/NewChatRoomForm/NewChatRoomForm";
 import { RoomList } from "./RoomList/RoomList";
 import { ChatArea } from "./ChatArea/ChatArea";
+import { ChatRoomSidebar, CHATROOM_SIDEBAR_ATTRIBUTES } from "./ChatRoomType";
 
 export const ChatRoom = () => {
   const [chatRoomID, setChatRoomID] = useState<string | undefined>();
@@ -25,8 +24,8 @@ export const ChatRoom = () => {
     setShowNewChatRoomDialog(false);
   }, []);
 
-  const chatRoomListMinQuery = useQuery<ChatRoomMin[]>(
-    `/users/${currentUser?.id}/chats?fields=${CHATROOM_MIN_ATTRIBUTES.join(
+  const chatRoomListMinQuery = useQuery<ChatRoomSidebar[]>(
+    `/users/${currentUser?.id}/chats?fields=${CHATROOM_SIDEBAR_ATTRIBUTES.join(
       ","
     )}`,
     {

@@ -6,14 +6,13 @@ import { RoomTitle } from "./RoomTitle/RoomTitle";
 
 import "./chat-area.css";
 import { CurrentUserContext } from "contexts/CurrentUserContext";
-import { ChatRoomMax } from "types/ChatRoom";
 import { useQuery } from "hooks/useQuery";
-import { CHATROOM_MAX_ATTRIBUTES, USER_ATTRIBUTES } from "attributes";
-import { User } from "types/User";
+import { User, USER_ATTRIBUTES } from "types/User";
 import { Message as MessageType } from "types/Message";
 import { ajaxClient } from "ajaxClient";
 import { useMutation } from "hooks/useMutation";
 import { DEFAULT_AVATAR, ROOM_DM } from "constant";
+import { ChatRoomMain, CHATROOM_MAIN_ATTRIBUTES } from "../ChatRoomType";
 
 type ChatAreaProps = {
   chatRoomID: string | undefined;
@@ -27,7 +26,7 @@ export const ChatArea = (props: ChatAreaProps) => {
   const [allMessages, setAllMessages] = useState<MessageType[]>([]);
 
   const successhandlerLatestMessages = useCallback(
-    (data: ChatRoomMax) => {
+    (data: ChatRoomMain) => {
       if (data.messages.length === 0) return;
       if (allMessages.length === 0) {
         return setAllMessages(data.messages.slice());
@@ -40,8 +39,8 @@ export const ChatArea = (props: ChatAreaProps) => {
     [allMessages]
   );
 
-  const { data: chatRoom } = useQuery<ChatRoomMax>(
-    `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(
+  const { data: chatRoom } = useQuery<ChatRoomMain>(
+    `/chats/${props.chatRoomID}?fields=${CHATROOM_MAIN_ATTRIBUTES.join(
       ","
     )}&count=${MESSAGE_COUNT}`,
     {
@@ -61,13 +60,13 @@ export const ChatArea = (props: ChatAreaProps) => {
     setIsAtTop(true);
   }, []);
 
-  const successHandlerPreviousMessages = useCallback((data: ChatRoomMax) => {
+  const successHandlerPreviousMessages = useCallback((data: ChatRoomMain) => {
     setIsAtTop(false);
     setAllMessages((m) => data.messages.concat(m));
   }, []);
 
-  const previousMessageQuery = useQuery<ChatRoomMax>(
-    `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(
+  useQuery<ChatRoomMain>(
+    `/chats/${props.chatRoomID}?fields=${CHATROOM_MAIN_ATTRIBUTES.join(
       ","
     )}&count=${MESSAGE_COUNT}&lastId=${allMessages[0]?.id || ""}`,
     {

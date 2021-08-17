@@ -43,7 +43,9 @@ export const Login = (props: LoginProps) => {
   const [id, handleIDChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
   const [name, handleNameChange] = useInput("");
-  const [mode, setMode] = useState<"login" | "signup">(LOGIN_MODE);
+  const [mode, setMode] = useState<typeof LOGIN_MODE | typeof SIGNUP_MODE>(
+    LOGIN_MODE
+  );
 
   const switchMode = () =>
     setMode((m) => (m === LOGIN_MODE ? SIGNUP_MODE : LOGIN_MODE));

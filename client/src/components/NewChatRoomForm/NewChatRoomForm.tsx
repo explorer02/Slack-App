@@ -16,8 +16,8 @@ import "./new-chatroom-form.css";
 import { Select, SelectType } from "./Select/Select";
 import { useNewChatRoom } from "./useNewChatRoom";
 import { useQuery } from "hooks/useQuery";
-import { User } from "types/User";
-import { USER_ATTRIBUTES } from "attributes";
+import { User, USER_ATTRIBUTES } from "types/User";
+
 import { ROOM_CHANNEL, ROOM_DM, VALIDATION_UNKNOWN_ERROR } from "constant";
 import {
   VALIDATION_NO_MEMBER,

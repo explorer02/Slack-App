@@ -9,13 +9,12 @@ import "./global.css";
 import { useQuery } from "./hooks/useQuery";
 import { CurrentUserContext } from "./contexts/CurrentUserContext";
 
-import { User } from "types/User";
-import { USER_ATTRIBUTES } from "attributes";
+import { User, USER_ATTRIBUTES } from "types/User";
 
 function App() {
   const [uid, setUid] = useState<string | undefined>(undefined);
 
-  const {data:user} = useQuery<User>(
+  const { data: user } = useQuery<User>(
     `/users/${uid}?fields=${USER_ATTRIBUTES.join(",")}`,
     {
       enabled: uid !== undefined,

@@ -5,19 +5,23 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { IoLanguageSharp } from "react-icons/io5";
 
 import "./login.css";
-import { Input } from "../../components/Input/Input";
 import { ajaxClient } from "ajaxClient";
 import { useMutation } from "hooks/useMutation";
 import { Button } from "components/Button/Button";
 import { delayTask } from "utils";
 import { useInput } from "hooks/useInput";
+import { VALIDATION_UNKNOWN_ERROR } from "constant";
+import { Input } from "components/Input/Input";
 
 type LoginProps = {
   onAuthComplete: (id: string) => void;
 };
 
+const LOGIN_MODE = "login";
+const SIGNUP_MODE = "signup";
+
 const options = {
-  signup: {
+  [SIGNUP_MODE]: {
     title: "Sign Up",
     url: "/users",
     submitButton: "Sign up",
@@ -25,7 +29,7 @@ const options = {
     loadingMessage: "Creating new account...",
     successMessage: "Your account is created...",
   },
-  login: {
+  [LOGIN_MODE]: {
     title: "Login",
     url: "/auth/login",
     submitButton: "Log in",
@@ -39,15 +43,16 @@ export const Login = (props: LoginProps) => {
   const [id, handleIDChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
   const [name, handleNameChange] = useInput("");
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState<"login" | "signup">(LOGIN_MODE);
 
-  const switchMode = () => setMode((m) => (m === "login" ? "signup" : "login"));
+  const switchMode = () =>
+    setMode((m) => (m === LOGIN_MODE ? SIGNUP_MODE : LOGIN_MODE));
 
   const validateAuth = useCallback(
     (id, password, name) => {
       let data = {};
       data = { id, password };
-      if (mode === "signup") data = { user: { id, password, name } };
+      if (mode === SIGNUP_MODE) data = { user: { id, password, name } };
       return ajaxClient.post(options[mode].url, data);
     },
     [mode]
@@ -65,7 +70,7 @@ export const Login = (props: LoginProps) => {
   let status = "";
   if (mutation.status === "loading") status = options[mode].loadingMessage;
   else if (mutation.status === "error") {
-    status = mutation.error?.message || "Some error occured...";
+    status = mutation.error?.message || VALIDATION_UNKNOWN_ERROR;
   } else if (mutation.status === "success")
     status = options[mode].successMessage;
 
@@ -94,7 +99,7 @@ export const Login = (props: LoginProps) => {
           onChange={handlePasswordChange}
           minLength={3}
         />
-        {mode === "signup" && (
+        {mode === SIGNUP_MODE && (
           <Input
             type="text"
             placeholder="your name..."

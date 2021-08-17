@@ -13,11 +13,13 @@ import { User } from "types/User";
 import { Message as MessageType } from "types/Message";
 import { ajaxClient } from "ajaxClient";
 import { useMutation } from "hooks/useMutation";
-import { DEFAULT_AVATAR } from "./../../../constants";
+import { DEFAULT_AVATAR, ROOM_DM } from "constant";
 
 type ChatAreaProps = {
   chatRoomID: string | undefined;
 };
+
+const MESSAGE_COUNT = 15;
 
 export const ChatArea = (props: ChatAreaProps) => {
   const currentUser = useContext(CurrentUserContext);
@@ -41,7 +43,7 @@ export const ChatArea = (props: ChatAreaProps) => {
   const { data: chatRoom } = useQuery<ChatRoomMax>(
     `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(
       ","
-    )}&count=15`,
+    )}&count=${MESSAGE_COUNT}`,
     {
       enabled: props.chatRoomID !== undefined,
       refetchInterval: 2,
@@ -67,7 +69,7 @@ export const ChatArea = (props: ChatAreaProps) => {
   const previousMessageQuery = useQuery<ChatRoomMax>(
     `/chats/${props.chatRoomID}?fields=${CHATROOM_MAX_ATTRIBUTES.join(
       ","
-    )}&count=15&lastId=${allMessages[0]?.id || ""}`,
+    )}&count=${MESSAGE_COUNT}&lastId=${allMessages[0]?.id || ""}`,
     {
       enabled: props.chatRoomID !== undefined && isAtTop,
       onSuccess: successHandlerPreviousMessages,
@@ -115,7 +117,7 @@ export const ChatArea = (props: ChatAreaProps) => {
     if (members !== undefined) {
       messageList = allMessages;
       memberList = members;
-      if (chatRoom.type === "dm") {
+      if (chatRoom.type === ROOM_DM.id) {
         const otherMember =
           members[0].id !== currentUser?.id ? members[0] : members[1];
         roomName = otherMember.name;

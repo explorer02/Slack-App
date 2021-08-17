@@ -18,6 +18,14 @@ import { useNewChatRoom } from "./useNewChatRoom";
 import { useQuery } from "hooks/useQuery";
 import { User } from "types/User";
 import { USER_ATTRIBUTES } from "attributes";
+import { ROOM_CHANNEL, ROOM_DM, VALIDATION_UNKNOWN_ERROR } from "constant";
+import {
+  VALIDATION_NO_MEMBER,
+  VALIDATION_NO_ROOM_NAME,
+  VALIDATION_SELECT_CHANNEL,
+  VALIDATION_SELECT_SOMEONE_ELSE,
+  VALIDATION_SUCCESS,
+} from "./constant";
 
 type NewChatRoomFormProps = {
   onSuccess: () => void;
@@ -72,25 +80,27 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
   const handleOk = useCallback(() => {
     mutationReset();
     if (
-      chatRoomState.currentRoom === "channel" &&
+      chatRoomState.currentRoom === ROOM_CHANNEL.id &&
       chatRoomState.roomName.trim().length === 0
     )
-      return setValidationMessage("Please Enter Room Name");
+      return setValidationMessage(VALIDATION_NO_ROOM_NAME);
     if (chatRoomState.members.length === 0)
-      return setValidationMessage("Please Select atleast one member");
-    if (chatRoomState.members.length > 1 && chatRoomState.currentRoom === "dm")
-      return setValidationMessage(
-        "Please select channel for more than 1 members"
-      );
+      return setValidationMessage(VALIDATION_NO_MEMBER);
+    if (
+      chatRoomState.members.length > 1 &&
+      chatRoomState.currentRoom === ROOM_DM.id
+    )
+      return setValidationMessage(VALIDATION_SELECT_CHANNEL);
     if (currentUser !== undefined) {
       let members = chatRoomState.members.filter((m) => m !== currentUser.id);
 
       if (members.length === 0) {
-        return setValidationMessage("Please Select someone else for DM");
+        return setValidationMessage(VALIDATION_SELECT_SOMEONE_ELSE);
       }
       members = members.concat(currentUser.id).sort();
       const type = chatRoomState.currentRoom;
-      const id = type === "dm" ? members.join("_") : chatRoomState.roomName;
+      const id =
+        type === ROOM_DM.id ? members.join("_") : chatRoomState.roomName;
       mutate(id, members, type);
       setValidationMessage("");
     }
@@ -106,9 +116,9 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
   let status = "";
   if (mutationStatus === "loading") status = "Loading...";
   else if (mutationStatus === "error")
-    status = mutationError?.message || "Some Error Ocurred!!";
+    status = mutationError?.message || VALIDATION_UNKNOWN_ERROR;
   else if (mutationStatus === "success") {
-    status = "ChatRoom created successfully!!";
+    status = VALIDATION_SUCCESS;
   }
 
   return (
@@ -127,7 +137,7 @@ const NewChatRoomForm = (props: NewChatRoomFormProps) => {
         selected={chatRoomState.currentRoom}
         onChange={chatRoomState.handleRoomChange}
       />
-      {chatRoomState.currentRoom === "channel" && (
+      {chatRoomState.currentRoom === ROOM_CHANNEL.id && (
         <Input
           type="text"
           value={chatRoomState.roomName}

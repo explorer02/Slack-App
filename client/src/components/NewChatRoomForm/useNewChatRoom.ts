@@ -1,14 +1,18 @@
+import { ROOM_CHANNEL, ROOM_DM } from "constant";
 import { useInput } from "hooks/useInput";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SelectType } from "./Select/Select";
 
-const rooms: SelectType = { dm: "Direct Message", channel: "Channel" };
+const rooms: SelectType = {
+  [ROOM_DM.id]: ROOM_DM.name,
+  [ROOM_CHANNEL.id]: ROOM_CHANNEL.name,
+};
 
 export const useNewChatRoom = (users: SelectType) => {
   const [members, setMembers] = useState<string[]>([]);
 
   const [currentMember, handleMemberChange] = useInput("");
-  const [currentRoom, handleRoomChange] = useInput("dm");
+  const [currentRoom, handleRoomChange] = useInput(ROOM_DM.id);
   const [roomName, handleRoomNameChange] = useInput("");
 
   useEffect(() => {

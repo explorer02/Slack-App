@@ -6,7 +6,7 @@ import { Message as MessageType } from "types/Message";
 import { User } from "types/User";
 
 import "./chat-display.css";
-import { DEFAULT_USER } from "./../../../../constants";
+import { DEFAULT_USER } from "constant";
 
 type ChatDisplayProps = {
   messages: MessageType[];
@@ -22,8 +22,6 @@ export const ChatDisplay = (props: ChatDisplayProps) => {
   const { onReachingTop, messages } = props;
   useEffect(() => {
     const div = ref.current;
-    // console.log(div?.clientHeight, div?.scrollHeight, div?.scrollTop);
-
     if (!div) return;
     let signalled = false;
     const scrollEvent = () => {

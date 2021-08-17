@@ -7,6 +7,8 @@ type ButtonProps = {
   onClick?: (ev: MouseEvent<HTMLButtonElement>) => void;
   type: "button" | "submit" | "reset";
   disabled?: boolean;
+  style?: { [k: string]: string };
+  selected?: boolean;
 };
 
 export const Button = (props: ButtonProps) => {
@@ -14,8 +16,11 @@ export const Button = (props: ButtonProps) => {
     <button
       onClick={props.onClick}
       type={props.type}
-      className="styled-button"
+      className={`styled-button ${
+        props.selected ? "styled-button-selected" : ""
+      }`}
       disabled={props.disabled || false}
+      style={props.style}
     >
       {props.text}
     </button>

@@ -4,3 +4,4 @@ server/yarn.lock
 server/storage/chat_rooms
 server/storage/Users.json
 client/yarn.lock
+client/package-lock.json

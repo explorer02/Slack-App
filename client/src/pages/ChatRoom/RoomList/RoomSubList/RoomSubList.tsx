@@ -1,3 +1,4 @@
+import { Button } from "components/Button/Button";
 import React, { MouseEvent, useCallback, useState } from "react";
 import { ChatRoomMin } from "types/ChatRoom";
 
@@ -33,17 +34,15 @@ export const RoomSubList = (props: RoomSubListProps) => {
       {showList && (
         <ul>
           {props.roomEntries.map((entry) => (
-            <li
-              onClick={handleClick}
-              data-id={entry.id}
-              key={entry.id}
-              className={`room-sub-list-item ${
-                props.selectedRoomId === entry.id
-                  ? "room-sub-list-item-selected"
-                  : ""
-              }`}
-            >
-              {entry.name}
+            <li onClick={handleClick} data-id={entry.id} key={entry.id}>
+              <Button
+                text={entry.name}
+                type="button"
+                style={{
+                  border: "none",
+                }}
+                selected={props.selectedRoomId === entry.id}
+              />
             </li>
           ))}
         </ul>

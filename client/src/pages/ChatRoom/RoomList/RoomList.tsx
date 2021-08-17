@@ -4,6 +4,7 @@ import { RoomSubList } from "./RoomSubList/RoomSubList";
 
 import "./room-list.css";
 import { ChatRoomMin } from "types/ChatRoom";
+import { Button } from "components/Button/Button";
 
 type RoomListProps = {
   onClickListItem: (id: string) => void;
@@ -12,7 +13,7 @@ type RoomListProps = {
   selectedRoomId: string;
 };
 
-export const RoomList = (props: RoomListProps) => {
+export const RoomList = (props: RoomListProps): JSX.Element => {
   const dms = useMemo(
     () => props.rooms.filter((room) => room.type === "dm"),
     [props.rooms]
@@ -24,9 +25,11 @@ export const RoomList = (props: RoomListProps) => {
 
   return (
     <div className="room-list">
-      <p onClick={props.onClickNewChatRoom} className="room-list-new-chat">
-        New Chat
-      </p>
+      <Button
+        onClick={props.onClickNewChatRoom}
+        type="button"
+        text="New Chat"
+      />
 
       <RoomSubList
         roomEntries={channels}
